@@ -1,0 +1,18 @@
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-12-25 20:05:35 +0900
+Connecting to database specified by database.yml
+Served asset /rails.png - 304 Not Modified (68ms)
+
+
+Started GET "/taskManagement" for 127.0.0.1 at 2012-12-25 20:08:16 +0900
+Connecting to database specified by database.yml
+Processing by GcalMainController#doExe as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 19ms (Views: 17.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/taskManagement" for 127.0.0.1 at 2012-12-25 20:08:32 +0900
+Processing by GcalMainController#doExe as HTML
+  Rendered text template (0.0ms)
+Completed 200 OK in 9635ms (Views: 1.5ms | ActiveRecord: 0.0ms)
