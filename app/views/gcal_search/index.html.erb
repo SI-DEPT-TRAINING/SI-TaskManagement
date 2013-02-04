@@ -1,0 +1,83 @@
+# -*- coding: utf-8 -*-
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TaskManagement.GcalSearch</title>
+	<%= stylesheet_link_tag "common", :media => "all" %>
+	<%= stylesheet_link_tag "gcal_saerch", :media => "all" %>
+	<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"%>
+	<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' %>
+	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" %>
+	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js" %>
+	<%= javascript_include_tag 'gcal_search' %>
+</head>
+
+<body>
+	<div id="container">
+		<!-- header -->
+		<%= render "common/header" %>
+
+        <!-- contents_search -->
+
+	    <div id="contents">
+	    	<div id="seach" align="left" style="margin-left: 30px; margin-top: 0px; padding-top: 0px;">
+	    		<p style="font-size: 0.7em;">アカウントID</p>
+	    		<input type="text" name="acount" id="acount" size="30" value=<%= @acount %> >
+	    		<p style="font-size: 0.7em;">パスワード</p>
+	    		<input type="text" name="password" id="password" size="30" value=<%= @password %> >
+	    		<p style="font-size: 0.7em;">検索期間</p>
+	    		<input type="text" id="dateFrom" size="30"  value=<%= @dateFrom %> >　〜　<input type="text" id="dateTo" size="30"  value=<%= @dateTo %> >
+	    		<br/>
+	    		<%= button_tag 'Excel出力', class: 'excelOut', type: :button %>
+	    	</div>
+
+			<br/>
+			<div align="center" >
+				<hr size="1" width="95%">
+			</div>
+			<br/>
+
+			<p style="font-size: 0.7em;"><%= link_to 'CSVファイル選択', '#', class: 'open' %></p>
+
+			<!-- contents_csv -->
+			<div id="modal" align="left" style="display:none; margin-left: 10px; margin-top: 0px; padding-top: 0px;">
+				<form action="csvUpLoad" method="post" enctype="multipart/form-data">
+				<!--<%= form_tag :controller => "gcalSearch",:action => "csvUpLoad", :method => :post, :multipart => true do %> -->
+					<br/>
+					<p style="font-size: 0.7em; margin-top: 1px; margin-bottom: 5px;">
+						<%= file_field "file", "csv", "size" => 60 %>
+					</p>
+					<p style="font-size: 0.7em; margin-top: 0px; margin-bottom: 0px;">
+						<%= submit_tag 'CSV Upload' %>
+					</p>
+				</form>
+			</div>
+			
+			<div align="left" style="margin-left: 20px; margin-right: 20px;  mamargin-top: 0px; padding-top: 0px;">
+					<% @acountList.each do |model| %>
+						<table border="1" class="bordered" width="70%">
+							<thead>
+							<tr bgcolor="#DCDCDC">
+								<td align="center" style="font-size: 0.7em;" width="30%">名前</td>
+								<td align="center" style="font-size: 0.7em;" width="70%">アカウントID</td>
+						    </tr>
+						    </thead>
+						    <tbody>
+							<tr>
+								<td style="font-size: 0.7em;"><%= model.name %></td>
+								<td style="font-size: 0.7em;"><%= model.acount %></td>
+						    </tr>
+						    </tbody>
+							<br/>
+						</table>
+					<% end %>
+			    </from>
+				<!-- <% end %> -->
+	    	</div>
+	    </div>
+
+	    <!-- footer -->
+	   	<%= render "common/footer" %>
+	</div>
+</body>
+</html>
