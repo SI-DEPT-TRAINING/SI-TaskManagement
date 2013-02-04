@@ -1,0 +1,60 @@
+// Place all the styles related to the gcalMain controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+* {
+    margin: 0;
+    padding: 0;
+}
+ 
+html,body {
+    height: 100%;
+    background-color: #222222;
+    text-align: center;
+    margin: 0px auto;
+}
+ 
+div#container {
+    position: relative;
+    margin: 0px auto;
+    width: 900px;
+    height: 100%;
+    min-height: 100%;
+    background-color: #FFFFFF;
+    text-align: left;
+}
+ 
+body > #container {
+    height: auto;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+ 
+div#contents {
+    height: auto;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+ 
+#header,
+#footer {
+    width: 900px;
+    height: 100px;
+    color: #FFFFFF;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 50px;
+    text-align: center;
+}
+ 
+#header {
+    //background: url(hd_bg.jpg) no-repeat left bottom;
+}
+ 
+#footer {
+    position: absolute;
+    bottom: 0px;
+    //background: url(ft_bg.jpg) no-repeat left top;
+}
+ 

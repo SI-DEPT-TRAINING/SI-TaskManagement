@@ -61,8 +61,8 @@ TaskManagement::Application.routes.draw do
   match "login", :to => "login#index", :via => :get
   match "taskManagement/gcalSearch", :to => "gcalSearch#index", :via => :get
   match "taskManagement/login", :to => "login#googleAuth", :via => :post
-
+ 
   #検索画面ルーティング
   match "taskManagement/csvUpLoad", :to => "gcalSearch#csvUpLoad", :via => :post
-
+  match "taskManagement/ajaxSetSession", :to => "gcalSearch#ajaxSetSession", :via => :post
 end
