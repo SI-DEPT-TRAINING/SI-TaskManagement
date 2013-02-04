@@ -1,4 +1,6 @@
 TaskManagement::Application.routes.draw do
+  #get "login/index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -55,7 +57,12 @@ TaskManagement::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  
-  #讀懃ｴ｢逕ｻ髱｢蛻晄悄陦ｨ遉ｺ 
-  match 'taskManagement' => 'gcalMain#doExe'
+  #ログイン画面ルーティング
+  match "login", :to => "login#index", :via => :get
+  match "taskManagement/gcalSearch", :to => "gcalSearch#index", :via => :get
+  match "taskManagement/login", :to => "login#googleAuth", :via => :post
+ 
+  #検索画面ルーティング
+  match "taskManagement/csvUpLoad", :to => "gcalSearch#csvUpLoad", :via => :post
+  match "taskManagement/ajaxSetSession", :to => "gcalSearch#ajaxSetSession", :via => :post
 end

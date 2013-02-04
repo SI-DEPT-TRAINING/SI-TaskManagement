@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TaskManagement Login</title>
+	<%= stylesheet_link_tag "common", :media => "all" %>
+</head>
+
+<body>
+	<div id="container">
+
+		<!-- header -->
+		<%= render "common/header" %>
+
+        <!-- contents -->
+	    <div id="contents">
+	    	<%= button_to "Login", :controller => "login", :action => "googleAuth" %>
+	    </div>
+
+	    <!-- footer -->
+	   	<%= render "common/footer" %>
+	</div>
+</body>
+</html>
