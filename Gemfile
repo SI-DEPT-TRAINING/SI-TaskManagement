@@ -42,3 +42,6 @@ gem 'gcalapi'
 # ExcelApi
 gem 'spreadsheet'
 
+group :development do
+  gem 'thin'
+end
