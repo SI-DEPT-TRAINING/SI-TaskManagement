@@ -65,4 +65,5 @@ TaskManagement::Application.routes.draw do
   #検索画面ルーティング
   match "taskManagement/csvUpLoad", :to => "gcalSearch#csvUpLoad", :via => :post
   match "taskManagement/ajaxSetSession", :to => "gcalSearch#ajaxSetSession", :via => :post
+  match "taskManagement/output" => 'Output#output'
 end
