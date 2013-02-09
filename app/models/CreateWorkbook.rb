@@ -8,8 +8,9 @@ class CreateWorkbook
     @googleEventList = googleEventList
     @fileName = fileName
     @memberList = ["Aさん", "Bさん"] # テスト用
-    @startDate = Date::new(2013, 1, 1) # テスト用
-    @endDate = Date::new(2013, 3, 10) # テスト用
+    @memberList = ["Aさん", "Bさん", "Cさん"] # テスト用
+    @startDate = Date::new(2013, 1, 20) # テスト用
+    @endDate = Date::new(2013, 1, 30) # テスト用
   end
   
   def doExe
@@ -116,7 +117,7 @@ class CreateWorkbook
         base_cell.Offset(-4, offset).NumberFormatLocal =  'm"月"d"日"'
         # 曜日列の入力。
         base_cell.Offset(-3, offset).Formula = '=' + base_cell.Offset(-4, offset).Address() 
-        base_cell.Offset(-3, offset).NumberFormatLocal =  'aaa'
+        base_cell.Offset(-3, offset).NumberFormatLocal =  'aaa' #　「"aaa"：曜日」
         # 列幅調整。
         sheet.Columns(10+offset).AutoFit
         sheet.Rows(8).AutoFit
@@ -125,6 +126,44 @@ class CreateWorkbook
         curr += 1
       end
       
+      memberScheduleList = scheduleList.narrowMember(outputMember)
+      i = 0
+      base_cell = sheet.Range("C12")
+      memberScheduleList.each do |schedule|
+        ins_ = base_cell.Offset(i, 0).Row().to_s
+        sheet.Range(ins_ + ":" + ins_).Insert()
+        base_cell = sheet.Range("C12")
+        / *([0-9]+) *, *([0-9]+) *,  *([0-9]+) */ =~ schedule.getDesc()
+        /([^,]*),([^,]*),([^,]*)/ =~ schedule.getDesc()
+        sectionA = $1
+        sectionB = $2
+        sectionC = $3
+        
+        base_cell.Offset(i, 0).Value = "13" # とりあえず固定
+        base_cell.Offset(i, 1).Value = sectionA
+        base_cell.Offset(i, 2).Value = sectionB
+        base_cell.Offset(i, 3).Value = sectionC
+        base_cell.Offset(i, 4).Value = "適当（分類で決まる）" # とりあえず固定
+        base_cell.Offset(i, 5).Value = "適当（分類で決まる）" # とりあえず固定
+        base_cell.Offset(i, 6).Value = "適当（分類で決まる）" # とりあえず固定
+        
+        scheDateStr = schedule.getStartDate()
+        scheDate = Date::new(scheDateStr.year, scheDateStr.month, scheDateStr.day)
+        colOffset = scheDate - @startDate
+        if (0 <= colOffset) #後後いらない。
+          if (colOffset <= (@endDate - @startDate)) #後後いらない。
+            base_cell.Offset(i, colOffset.to_i + 8).Value = schedule.getWorkTimeMinuts()
+          end
+        end
+        p colOffset
+        #base_cell.Offset(i, 3).Value = schedule.isProcessTarget()
+        #base_cell.Offset(i, 4).Value = schedule.getTitle()
+        #base_cell.Offset(i, 5).Value = schedule.getWhere()
+        base_cell.Offset(i, 6).Value = schedule.getStartDate()
+        base_cell.Offset(i, 7).Value = schedule.getWorkTimeMinuts()
+        #base_cell.Offset(i, 7).Value = schedule.getEndDate()
+        i=i+1
+      end
     end
     
     time_string = Time.now.strftime("%Y%m%d_%H%M%S")

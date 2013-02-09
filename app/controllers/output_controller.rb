@@ -42,11 +42,11 @@ class OutputController < ApplicationController
     puts "Start"
       #検索条件の設定　Start
       # パスワード
-      pass = "J82&iKvlggg3"
+      pass = "??????"
       # カレンダー情報取得アカウント
-      masterAcount = "fexd001@gmail.com"
+      masterAcount = "??????????"
       # アカウントリスト
-      acountListMap = {"Aさん"=>"m.honda20110913@gmail.com", "Bさん"=>"ryouta.koganezawa@gmail.com"}
+      acountListMap = {"Aさん"=>"m.honda20110913@gmail.com", "Bさん"=>"ryouta.koganezawa@gmail.com", "Cさん"=>"fexd001@gmail.com", }
       #最大取得件数
       maxResults = 99999
       #開始日
