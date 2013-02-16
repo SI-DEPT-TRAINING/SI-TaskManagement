@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
-class AcountInfoModel
+class AcountModel
+  
   def initialize
   end
+  
   @name = nil;
   @acount = nil;
   attr_accessor :name
