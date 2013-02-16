@@ -57,12 +57,15 @@ TaskManagement::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  #ログイン画面ルーティング
+  #繝ｭ繧ｰ繧､繝ｳ逕ｻ髱｢繝ｫ繝ｼ繝�繧｣繝ｳ繧ｰ
   match "login", :to => "login#index", :via => :get
+  match "taskManagement/login", :to => "login#googleOAuth", :via => :post
   match "taskManagement/gcalSearch", :to => "gcalSearch#index", :via => :get
-  match "taskManagement/login", :to => "login#googleAuth", :via => :post
- 
-  #検索画面ルーティング
+   
+  #讀懃ｴ｢逕ｻ髱｢繝ｫ繝ｼ繝�繧｣繝ｳ繧ｰ
   match "taskManagement/csvUpLoad", :to => "gcalSearch#csvUpLoad", :via => :post
   match "taskManagement/ajaxSetSession", :to => "gcalSearch#ajaxSetSession", :via => :post
+  match "taskManagement/excelOut", :to => "gcalSearch#excelOut", :via => :post
+  
+  match "taskManagement/oauth2callback", :to => "gcalSearch#oauth2callback", :via => :get
 end
