@@ -38,7 +38,9 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 # googleApi
-gem 'gcalapi'
+gem 'google-api-client'
+# googleApi
+# gem 'gcalapi'
 # ExcelApi
 gem 'spreadsheet'
 

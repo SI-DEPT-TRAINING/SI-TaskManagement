@@ -1,0 +1,13 @@
+
+#OAuth2.0 Params
+scope: https://www.googleapis.com/auth/calendar
+client_id: 846777061871.apps.googleusercontent.com
+client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
+redirect_uri: http://localhost:3000/taskManagement/oauth2callback
+discovered_api: calendar
+verision : v3
+
+#calenderApi Params
+cal_api_orderBy: starttime
+cal_api_sortOrder: ascending
+cal_api_maxResults: 9999
