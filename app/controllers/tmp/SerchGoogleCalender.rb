@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 require "kconv";
 require "gcalapi";
-require './model/SerchOutputModel.rb'
+require './app/controllers/tmp/SerchOutputModel.rb'
 
 =begin 
 Googleカレンダー情報取得クラス

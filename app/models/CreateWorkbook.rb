@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 require 'win32ole'
+require './app/models/util/UtilExcel.rb'
+module Excel
+end
 
 class CreateWorkbook
-
+  
   # コンストラクタ。
   def initialize(googleEventList)
     @googleEventList = googleEventList
@@ -27,47 +30,21 @@ class CreateWorkbook
   def doExe
     # データ取得。
     scheduleList = getExcelScheduleList()
-    # データのマージ。
     # データ書き込み。
     getExcelWorkbook(scheduleList);
-    
     
     return '';
   end
   
   def getExcelScheduleList()
     #デバック用（本来は画面表示用のオブジェクトへ詰め替える予定）
-    cnt = 1;
     scheduleList = ScheduleList.new()
     @googleEventList.each do |serchOutputModel|
       serchOutputModel.eventList.each do |event|
-        puts Kconv.tosjis(serchOutputModel.name)
-        puts Kconv.tosjis(serchOutputModel.acount)
-        #タイトル
-        #puts event.title
-        #詳細
-        #puts event.desc
-        #場所
-        #puts event.where
-        #開始日時
-        #puts event.st
-        #終了日時
-        #puts event.en
-        
         schedule = ScheduleModel.new(event);
         schedule.username = serchOutputModel.name
         scheduleList.add(schedule)
-        # ↑ここまで取得処理。
-            
-        #puts(Kconv.tosjis(schedule.getTitle()))
-        #puts schedule.getTitle().encode("Shift_JIS")
-        puts schedule.getDesc()
-        puts schedule.getWhere()
-        puts schedule.getStartDate()
-        puts schedule.getEndDate()
-        
-        print(cnt , "件目".encode("Shift_JIS"))
-        cnt = cnt + 1
+#        print(cnt , "件目".encode("Shift_JIS"))
       end
     end
     return scheduleList;
@@ -75,71 +52,27 @@ class CreateWorkbook
   private :getExcelScheduleList
   
   def outputDateTerm(sheet)
-    curr = @startDate
-    base_cell = sheet.Range("K12")
-    del_row_number = base_cell.Row().to_s
-    de = base_cell.Column().to_s
-    #sheet.Range(del_row_number + ":" + del_row_number).Delete
-    p @setting["InitDataCellRange"]
-#    /(\$([A-Z]+)\$([0-9]+))(:(\$([A-Z]+)\$([0-9]+)))?/ =~ base_cell.Address()
-    /(\$?([A-Z]+)\$?([0-9]+))(:(\$?([A-Z]+)\$?([0-9]+)))?/ =~ @setting["InitDataCellRange"]
-    address_col1 = $2
-    address_row1 = $3
-    address_col2 = $6
-    address_row2 = $7
-    p address_col1
-    p address_row1
-    p address_col2
-    p address_row2
-    
-    delele_col = sprintf("%s:%s", $2, $6)
-    delele_row = sprintf("%s:%s", $3, $7)
-    p delele_col
-    p delele_row
-#    sheet.Range(address_col + ":" + address_col).Delete
- #   sheet.Range(address_row + ":" + address_row).Delete
+    # セルの行列削除。
+    delele_col = UtilExcel.getColumnsAddress(@setting["InitDataCellRange"])
+    delele_row = UtilExcel.getRowsAddress(@setting["InitDataCellRange"])
     sheet.Range(delele_col).Delete
     sheet.Range(delele_row).Delete
-  #  sheet.Range(address_row + ":" + address_row).Delete
     
-    error_base_cell_str = @setting["ErrorBaseCell"]
-    error_base_cell = sheet.Range(error_base_cell_str)
-    while true do
-      base_cell = sheet.Range("K12")
-      if (@endDate - curr) < 0
-        # 終了日を超えたらbreak。
-        break
-      end
-      
-      offset = (curr - @startDate)
-      offset = offset.to_i
-      puts offset
-      
-      ins_ = base_cell.Offset(0, offset).Row().to_s
-      /(\$([A-Z]+)\$([0-9]+))(:(\$([A-Z]+)\$([0-9]+)))?/ =~ base_cell.Offset(0, offset).Address()
-      tmp_col = $2
-      tmp_row = $3
-      puts tmp_col + ":" + tmp_col
-      sheet.Range(tmp_col + ":" + tmp_col).Insert()
-      puts tmp_col + ":" + tmp_col
-      puts base_cell.Address()
-      puts offset
-      base_cell.Offset(0, offset).Address()
-      puts
-      
-      base_cell = sheet.Range("K12")
-      # 日付列の入力。
-      base_cell.Offset(-4, offset).Value = curr.to_s
-      base_cell.Offset(-4, offset).NumberFormatLocal =  'm"月"d"日"'
-      # 曜日列の入力。
-      base_cell.Offset(-3, offset).Formula = '=' + base_cell.Offset(-4, offset).Address() 
-      base_cell.Offset(-3, offset).NumberFormatLocal =  'aaa' #　「"aaa"：曜日」
-      # 列幅調整。
-      sheet.Columns(10+offset).AutoFit
-      sheet.Rows(8).AutoFit
-      
-      # 次の日へ
-      curr += 1
+    # 日付列の開始位置を取得。
+    date_start_address = @setting["BaseCell_Date"]
+    date_start_col = UtilExcel.getCorner(date_start_address)[0]
+    
+    # 必要分の日付列を一括で列Insert。    
+    term = (@endDate - @startDate).to_i + 1
+    date_end_col = UtilExcel.getColumnAlphabet_onBase(date_start_col, term - 1)
+    sheet.Range(date_start_col + ":" + date_end_col).Insert()
+    
+    base_cell = sheet.Range(date_start_address)
+    for curr in @startDate..@endDate
+      offset = (curr - @startDate).to_i
+      # 日付、曜日の入力。
+      base_cell.Offset(0, offset).Value = curr.to_s
+      base_cell.Offset(1, offset).Formula = '=' + base_cell.Offset(0, offset).Address() 
     end
   end
   private :outputDateTerm
@@ -147,22 +80,18 @@ class CreateWorkbook
   def outputSchedule(sheet, scheduleList)
     addIdx = 0
     errIdx = 0
-    #allIdx = 0
-    # base_cell = sheet.Range("C12")
-    error_base_cell_str = @setting["ErrorBaseCell"]
+    error_base_cell_str = @setting["BaseCell_Error"]
     work_time_unit = @setting["WorkTimeUnit"].to_i
     time_type = @setting["TimeType"]
+    address = @setting["BaseCell_ScheduleItem"]
     scheduleList.each do |schedule|
       # スケジュールデータか確認する。
       flg = schedule.isProcessTarget?()
       if (flg == true) 
         # スケジュールデータ。
-        base_cell = sheet.Range("C12").Offset(addIdx, 0)
+        base_cell = sheet.Range(address).Offset(addIdx, 0)
         # 分類のリストを取得。
         sectionList = schedule.getSectionList()
-        #sheet.Range("C12:C").Offset(addIdx, 0)
-        #schedule.isSameSection?(scheduleList)
-        idx = -1
         idx = schedule.getSameSectionIndexBeforeMyself(scheduleList)
         isNewRow = false
         if (idx < 0)
@@ -190,7 +119,7 @@ class CreateWorkbook
           base_cell.Offset(0, offset1).Formula = "=SUM(" + address_col1 + ins_ + ":INDIRECT(ADDRESS(ROW(), COLUMN()-1)))"
         else
           # 同一分類のスケジュールが存在する。
-          base_cell = sheet.Range("C12").Offset(idx, 0)
+          base_cell = sheet.Range(address).Offset(idx, 0)
         end
 
         scheDateStr = schedule.getStartDate()
@@ -213,12 +142,6 @@ class CreateWorkbook
             base_cell.Offset(0, colOffset.to_i + 8).Value = val1 + val2
           end
         end
-        #base_cell.Offset(0, -1).Value = flg
-        #base_cell.Offset(addIdx, 4).Value = schedule.getTitle()
-        #base_cell.Offset(addIdx, 5).Value = schedule.getWhere()
-        #base_cell.Offset(addIdx, -0).Value = schedule.getStartDate()
-        #base_cell.Offset(0, 7).Value = schedule.getWorkTimeMinuts()
-        #base_cell.Offset(addIdx, 7).Value = schedule.getEndDate()
         
         if (idx < 0)
           addIdx += 1
@@ -231,7 +154,6 @@ class CreateWorkbook
         base_cell.Offset(0, 5).Value = schedule.getTitle()
         errIdx += 1
       end
-#      allIdx += 1
     end
     
     if addIdx == 0
@@ -239,31 +161,19 @@ class CreateWorkbook
     end
     # 合計列。
     # 横軸（日付）ごとの合計式を設定。
-    /(\$?([A-Z]+)\$?([0-9]+))(:(\$?([A-Z]+)\$?([0-9]+)))?/ =~ @setting["InitDataCellRange"]
-    address_cell1 = $1
+    work_time_base_address = @setting["BaseCell_WorkTime"]
 
-    base_cell = sheet.Range(address_cell1).Offset(addIdx, 0)
-    curr = @startDate
-    while true do
-      if (@endDate + 1 - curr) < 0
-        # 終了日を超えたらbreak。
-        break
-      end
+    base_cell = sheet.Range(work_time_base_address).Offset(addIdx, 0)
+    for curr_date in @startDate..@endDate
+      offset = (curr_date - @startDate).to_i
       
-      offset = (curr - @startDate)
-      offset = offset.to_i
+      curr_cell = base_cell.Offset(0, offset)
+      address_col1 = UtilExcel.getColumnAlphabet(curr_cell.Column())
+      address_row1 = sheet.Range(work_time_base_address).Row()
+      address = sprintf("%s%s", address_col1, address_row1)
+      base_cell.Offset(0, offset).Formula = "=SUM(" + address + ":INDIRECT(ADDRESS(ROW()-1, COLUMN())))"
       
-      # base_cell.Offset(0, offset).Value = "123"
-      /(\$?([A-Z]+)\$?([0-9]+))(:(\$?([A-Z]+)\$?([0-9]+)))?/ =~ base_cell.Offset(0, offset).Address()
-      address_col1 = $2
-      base_cell.Offset(0, offset).Formula = "=SUM(" + address_col1 + "12:INDIRECT(ADDRESS(ROW()-1, COLUMN())))"
-      p base_cell.Offset(0, offset).Address()
-      
-      # 次の日へ
-      curr += 1
     end
-    
-    #base_cell.Offset(0, 0).Formula = "=SUM(K12:INDIRECT(ADDRESS(ROW()-1, COLUMN())))"
   end
   
   def getExcelObj()
@@ -274,6 +184,8 @@ class CreateWorkbook
       # Excelプロセスがないので、新たにプロセスを作成。
       excelapp = WIN32OLE.new("Excel.Application")
     end
+    
+    # WIN32OLE.const_load(excelapp, Excel)
     return excelapp 
   end
   
@@ -293,7 +205,11 @@ class CreateWorkbook
     
     # テンプレートからファイル作成。
     template_fullpath = getTemplateFileFullpath()
-    book = @excelapp.workbooks.add(template_fullpath)
+    time_string = Time.now.strftime("%Y%m%d_%H%M%S")
+    dest = UtilFile.getParentPath(template_fullpath) + '/output' + time_string + '.xls'
+    FileUtils.copy(template_fullpath, dest)
+    # ファイルを開く。
+    book = @excelapp.workbooks.add(dest)
     
     # 「設定」シートから設定の読み込み。
     loadSetting(book)
@@ -301,29 +217,34 @@ class CreateWorkbook
     @memberList.each do |outputMember|
       # 対象メンバーのスケジュールのみを取得。
       memberScheduleList = scheduleList.narrowMember(outputMember)
-      
       # シート作成。
       sheet = createMemberSheet(book, outputMember)
       # 日付列出力。
       outputDateTerm(sheet)
       # シートにスケジュール出力。
       outputSchedule(sheet, memberScheduleList)
+      # 列幅調整。
+      autoFillColumnWidth(sheet)
     end
     
-    fso = WIN32OLE.new('Scripting.FileSystemObject')
-    time_string = Time.now.strftime("%Y%m%d_%H%M%S")
-    template_base_path = 'app/controllers/tmp/'
-    output_abspath = template_base_path + '/output' + time_string + '.xlsx'
-    output_fullpath = fso.GetAbsolutePathName(output_abspath)
+    # 全メンバーのスケジュールのみを取得。
+    # シート作成。
+    sheet = createMemberSheet(book, 'ALL')
+    # 日付列出力。
+    outputDateTerm(sheet)
+    # シートにスケジュール出力。
+    outputSchedule(sheet, scheduleList.getList())
+    # 列幅調整。
+    autoFillColumnWidth(sheet)
+      
+    @excelapp.displayAlerts = false
     # book.SaveAs('output' + time_string + '.xlsx') # フルパスでエラー発生？
-    book.SaveAs(output_fullpath) # フルパスでエラー発生？
-    filname = 'C:/ProgramFiles/eclipse/ruby_work/SI-TaskManagement/app/output.xlsx'
-    #book.SaveAs(filname)
-    #book.Save(fso.GetAbsolutePathName(xlsfilename))
+    # 「56：Excel::XlExcel8」
+    book.SaveAs({'Filename' => dest, 'FileFormat' => 56})
+    @excelapp.displayAlerts = true
     
-    @excelapp.Workbooks.Close
-    # 必ず終了する。でないとプロセスが残る。
-    @excelapp.Quit
+    # 渡す際は閉じなくてよいはず。
+    book.Close()
     
     return book;
   end
@@ -347,13 +268,19 @@ class CreateWorkbook
     end
   end
   private :loadSetting
+  
+  def autoFillColumnWidth(sheet)
+    term = (@endDate - @startDate).to_i
+    lastColumnAlpha = UtilExcel.getColumnAlphabet_onBase("K", term)
+    sheet.Columns("K:" + lastColumnAlpha).AutoFit
+  end
+  
   def createMemberSheet(book, outputMember)
     sheet = book.Worksheets('templateSheet')
     # テンプレート用シートの前へコピー。
     sheet.Copy "before" => sheet
     # コピー先のシート名を変更
     @excelapp.ActiveSheet.Name = outputMember
-    puts outputMember.encode("Shift_JIS")
     
     return book.Worksheets(outputMember)
   end
