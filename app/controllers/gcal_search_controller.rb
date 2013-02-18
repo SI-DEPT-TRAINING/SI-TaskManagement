@@ -127,7 +127,7 @@ Excel出力時バリデート
     end
     
     #日付系
-    isValidate = dateValidate
+    isValidate = dateValidate(isValidate)
 
     #CSVデータ
     checkerCsvData = ValidetionModule::MustChecker.new("CSVデータ", session[:acountList])
@@ -143,8 +143,8 @@ Excel出力時バリデート
 日付バリデート
 =end
   private
-  def dateValidate
-    isValidate = false
+  def dateValidate(_isValidate)
+    isValidate = _isValidate
 
     #日付Form
     checkerDate = ValidetionModule::DateChecker.new("日付Form", params[:dateFrom])

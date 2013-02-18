@@ -2,7 +2,7 @@
 class LoginController < ApplicationController
   
   def index
-    session[:gcalToken] = nil
+    reset_session
   end
 
   def googleOAuth
