@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# require "gcalapi";
+require "win32ole";
 
 class UtilFile
   # 
@@ -30,26 +30,6 @@ class UtilFile
   def self.getExt(file_path)
     ext = File::extname(file_path)
     return ext 
-  end
-  
-  def self.getColumnAlphabet(colNumber)
-    if colNumber <= 0
-      return nil
-    end
-    
-    alpha_str = ""
-    tmp = colNumber - 1
-    while (true)
-      ascii_int = "A"[0].to_i + (tmp % 26).to_i
-      alpha = ascii_int.chr
-      alpha_str = alpha.to_s + alpha_str
-      tmp = tmp / 26
-      tmp = tmp.to_i
-      if tmp == 0
-        break
-      end
-    end
-    return alpha_str 
   end
   
 end
