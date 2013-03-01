@@ -44,3 +44,9 @@ gem 'google-api-client'
 # ExcelApi
 gem 'spreadsheet'
 
+group :development do
+  gem 'thin'
+end
+group :test, :development do
+  gem "rspec-rails", "~> 2.0"
+end
