@@ -64,11 +64,8 @@ class ScheduleModel
     min = days[0].to_i * 24*60 + hours[0].to_i * 60 + mins[0].to_i
     
     mod = min % unit
+    
     return min - mod 
-    if(mod == 0)
-      return min / unit
-    end
-    return min / unit + 1
   end
   def getStartDate()
     return googleCalObj.st
@@ -77,20 +74,13 @@ class ScheduleModel
     return googleCalObj.en
   end
   
-  def randBool?()
-      return false
-    if ( 50 < rand(100) )
-      return false
-    end
-    return true
-  end
   def isProcessTarget?()
     sectionList = getSectionList()
     if (sectionList[0] == "" || sectionList[1] == "" || sectionList[2] == "")
-      return randBool?()
+      return false
     end
     if (sectionList[0] == nil || sectionList[1] == nil || sectionList[2] == nil)
-      return randBool?()
+      return false
     end
     
     # 3セクションとも設定している。
