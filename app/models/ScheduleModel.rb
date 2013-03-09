@@ -14,13 +14,13 @@ class ScheduleModel
   
   # メソッド定義。
   def getTitle()
-    return googleCalObj.title
+    return googleCalObj.summary
   end
   def getDesc()
-    return googleCalObj.desc
+    return googleCalObj.description
   end
   def getDesc_FirstLine()
-    str = googleCalObj.desc
+    str = googleCalObj.description
     if str==nil
       return nil
     end
@@ -46,7 +46,7 @@ class ScheduleModel
     return sectionList
   end
   def getWhere()
-    return googleCalObj.where
+    #return googleCalObj.where
   end
   def getWorkTimeHours(unit=1)
     min = getWorkTimeMinuts(unit)
@@ -54,8 +54,8 @@ class ScheduleModel
     return hour
   end
   def getWorkTimeMinuts(unit=1)
-    startTime = googleCalObj.st
-    endTime = googleCalObj.en
+    startTime = googleCalObj.start
+    endTime = googleCalObj.end
     
     days = (endTime - startTime).divmod(24*60*60) #=> [2.0, 45000.0]
     hours = days[1].divmod(60*60) #=> [12.0, 1800.0]
