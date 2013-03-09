@@ -24,8 +24,9 @@ class OAuthController < ApplicationController
       return
     end
 
+    #Token生成またTokenリフレッシュ
     token_info = session[:gcalToken]
-    token_info.blank? ? getGcalToken : checkGcalToken;
+    token_info.blank? ? getGcalToken : doExpirarion;
   end
 
   #コールバックアクション
@@ -37,17 +38,16 @@ class OAuthController < ApplicationController
     client.authorization.client_secret = CLIENT_SECRET
     client.authorization.redirect_uri = REDIRECT_URI
     client.authorization.code = params[:code] #許可コード取得
-    token_info = client.authorization.fetch_access_token! #続けてAPI接続しない場合は、"!"付与
-    token_info['issue_timestamp'] = Time.now
-
+    token_info = client.authorization.fetch_access_token! #Token発行
+    token_info['origin_timestamp'] = Time.now #期限切れ基準時刻 
     session[:gcalToken] = token_info
+    session[:apiClient] = client
   end
 
   #トークン発行
   private
   def getGcalToken
     client = Google::APIClient.new
-    service = client.discovered_api('calendar', 'v3')
     client.authorization.client_id = CLIENT_ID
     client.authorization.client_secret = CLIENT_SECRET
     client.authorization.scope = OUTH_SCOPE
@@ -58,9 +58,9 @@ class OAuthController < ApplicationController
   
   #トークン期限切れチェック
   private
-  def checkGcalToken
+  def doExpirarion
     token_info = session[:gcalToken]
-    if Time.now > (token_info['issue_timestamp'] + token_info['expires_in'])
+    if Time.now > (token_info['origin_timestamp'] + token_info['expires_in'])
       refreshGcalToken
     end
   end
@@ -68,16 +68,20 @@ class OAuthController < ApplicationController
   #トークン再発行
   private
   def refreshGcalToken
+
       client = Google::APIClient.new
       client.authorization.client_id = CLIENT_ID
       client.authorization.client_secret = CLIENT_SECRET
 
       #GOOGLE APIが最初に取得したtoken_infoを渡すと情報を初期化してくれるらしい
-      client.authorization.update_token!(token_info)#続けてAPI接続しない場合は、"!"を外す??
-      client.authorization.grant_type = 'refresh_token'#再発行を意味する
-      token_info = client.authorization.fetch_access_token! #Token情報を取得　続けてAPI接続しない場合は、"!"を付与
-      token_info['issue_timestamp'] = Time.now
+      token_info = session[:gcalToken]
+      client.authorization.update_token!(token_info)
+
+      client.authorization.grant_type = 'refresh_token' #再発行キー
+      token_info = client.authorization.fetch_access_token #Token再発行
+      token_info['origin_timestamp'] = Time.now #期限切れ基準時刻
       session[:gcalToken] = token_info
+      session[:apiClient] = client
   end
   
 end
