@@ -1,9 +1,10 @@
 # coding: utf-8
-require 'searchCondtionModel.rb'
 require 'acountModel.rb'
 require 'validetionModule.rb'
 require "yaml"
 require "oauthController.rb"
+require "googleManager.rb"
+require "CreateWorkbook.rb"
 
 class GcalSearchController < OAuthController
 
@@ -68,23 +69,20 @@ Excelファイル出力
     @errorMsgList = Array.new
 
     unless excelValidate then
-      
-      searchCondtionModel = SearchCondtionModel.new(
-                               params[:password],
-                               params[:acount],
-                               session[:acountList],
-                               SYSTEM_YAML["cal_api_maxResults"],
-                               params[:dateFrom],
-                               params[:dateTo],
-                               SYSTEM_YAML["cal_api_orderBy"],
-                               SYSTEM_YAML["cal_api_sortOrder"]
-                           )
-     #googleCalApi
-     #ExcelOutModule
+ 
+      #GoogleCalender情報取得
+      model = creatGcalSearchModel
+      calender = GoogleManager::Calender.new(session[:apiClient])
+      calResult = calender.getEventList(model)
+      workbook = CreateWorkbook.new(calResult)
+      workbook.setTerm(model.startMin,model.startMax)
 
+      #Excelオブジェクト生成
+
+      #フロントへExcel出力
       respond_to do |format|
         format.html
-        format.xls { output_excel('Excelオブジェクト', "XXX.xls") }
+        format.xls {output_excel('Excelオブジェクト', "XXX.xls") }
       end
       return
     end
@@ -98,8 +96,11 @@ Excelファイル出力
 GoogleOAuth2.0 コールバックアクション
 =end
   def oauth2callback
+
     @acountList = Array.new;
     @errorMsgList = Array.new;
+    
+    #Token情報をSessionへ保存
     setGoogleToken
     render :template => 'gcal_search/index'
   end
@@ -228,4 +229,21 @@ Session値をフォームへ設定
       end
   end
 
+=begin 
+GoogleCalenderApiモデルクラスを生成します
+=end
+  private
+  def creatGcalSearchModel
+      model = GoogleManager::CalSearchModel.new
+      model.pass =  params[:password]
+      model.masterAcount = params[:acount];
+      model.acountListModel = session[:acountList];
+      model.startMax = params[:dateTo];
+      model.startMin = params[:dateFrom];
+      model.orderBy = SYSTEM_YAML["cal_api_orderBy"];
+      model.sortOrder = SYSTEM_YAML["cal_api_sortOrder"];
+      model.maxResults =  SYSTEM_YAML["cal_api_maxResults"];
+      return model;
+  end
+  
 end
