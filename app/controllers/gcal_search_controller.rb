@@ -76,14 +76,7 @@ Excelファイル出力
       calResult = calender.getEventList(model)
       workbook = CreateWorkbook.new(calResult)
       workbook.setTerm(model.startMin,model.startMax)
-
-      #Excelオブジェクト生成
-
-      #フロントへExcel出力
-      respond_to do |format|
-        format.html
-        format.xls {output_excel('Excelオブジェクト', "XXX.xls") }
-      end
+      workbook.doExe
       return
     end
 
