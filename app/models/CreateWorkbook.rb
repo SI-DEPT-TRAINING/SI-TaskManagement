@@ -14,7 +14,7 @@ class CreateWorkbook
     @memberList = Array.new()
     googleEventList.each do |serchOutputModel|
       member_name = serchOutputModel.name
-      @memberList.push(member_name) 
+      @memberList.push(member_name)
     end
   end
   
@@ -31,9 +31,9 @@ class CreateWorkbook
     # データ取得。
     scheduleList = getExcelScheduleList()
     # データ書き込み。
-    getExcelWorkbook(scheduleList);
+    excelbook = getExcelWorkbook(scheduleList);
     
-    return '';
+    return excelbook;
   end
   
   def getExcelScheduleList()
@@ -244,7 +244,7 @@ class CreateWorkbook
     @excelapp.displayAlerts = true
     
     # 渡す際は閉じなくてよいはず。
-    book.Close()
+    # book.Close() TODO
     
     return book;
   end

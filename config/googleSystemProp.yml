@@ -11,3 +11,6 @@ verision : v3
 cal_api_orderBy: startTime
 cal_api_sortOrder: ascending
 cal_api_maxResults: 9999
+cal_api_single_events: true
+cal_api_timezone: Asia/Tokyo
+cal_api_fields: items(summary,description,start,end)

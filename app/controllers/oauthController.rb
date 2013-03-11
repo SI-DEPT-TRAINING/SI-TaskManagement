@@ -8,7 +8,7 @@ class OAuthController < ApplicationController
   before_filter :creatToken
   
   #各種パラメータは定義ファイルより取得する
-  SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/systemprop.yml')
+  SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/googleSystemProp.yml')
   CLIENT_ID = SYSTEM_YAML["client_id"]
   CLIENT_SECRET = SYSTEM_YAML["client_secret"]
   OUTH_SCOPE = SYSTEM_YAML["scope"]
