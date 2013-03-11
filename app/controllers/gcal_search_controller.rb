@@ -15,19 +15,15 @@ class GcalSearchController < OAuthController
   @acountList = Array.new;
   @errorMsgList = Array.new;
   @line = nil
-  
-=begin 
-検索画面初期表示
-=end
+ 
+  #検索画面初期表示
   def index
     @acountList = Array.new;
     @errorMsgList = Array.new;
     render :template => 'gcal_search/index'
   end
-
-=begin 
-Ajax通信
-=end
+  
+  #Ajax通信
   def ajaxSetSession
     setSession
     @respondData = {state: 'ok'}
@@ -35,10 +31,8 @@ Ajax通信
       format.json { render json: @respondData}
     end
   end
-
-=begin 
-CSVファイルアップロード
-=end
+  
+  #CSVファイルアップロード
   def csvUpLoad
 
     @acountList = Array.new
@@ -60,10 +54,8 @@ CSVファイルアップロード
     getSession
     render :template => 'gcal_search/index'
   end
-
-=begin 
-Excelファイル出力
-=end
+ 
+  #Excelファイル出力
   def excelOut
     @acountList = Array.new
     @errorMsgList = Array.new
@@ -74,10 +66,15 @@ Excelファイル出力
       model = creatGcalSearchModel
       calender = GoogleManager::Calender.new(session[:apiClient])
       calResult = calender.getEventList(model)
+      
+      #Excelオブジェクト生成
       workbook = CreateWorkbook.new(calResult)
       workbook.setTerm(model.startMin,model.startMax)
-      workbook.doExe
-      return
+      excelbook = workbook.doExe
+
+      respond_to do |format|
+        format.xls { send_data excelbook.to_xls }
+      end
     end
 
     setSession
@@ -85,9 +82,7 @@ Excelファイル出力
     render :template => 'gcal_search/index'
   end
 
-=begin 
-GoogleOAuth2.0 コールバックアクション
-=end
+  #GoogleOAuth2.0 コールバックアクション
   def oauth2callback
 
     @acountList = Array.new;
@@ -97,10 +92,8 @@ GoogleOAuth2.0 コールバックアクション
     setGoogleToken
     render :template => 'gcal_search/index'
   end
-
-=begin 
-Excel出力時バリデート
-=end
+ 
+  #Excel出力時バリデート
   private
   def excelValidate
 
@@ -133,9 +126,7 @@ Excel出力時バリデート
   return isValidate
   end
 
-=begin 
-日付バリデート
-=end
+  #日付バリデート
   private
   def dateValidate(_isValidate)
     isValidate = _isValidate
@@ -165,10 +156,8 @@ Excel出力時バリデート
 
     return isValidate
   end
-
-=begin 
-CSVファイルバリデート
-=end
+ 
+  #CSVファイルバリデート
   private
   def csvValidate
     
@@ -196,9 +185,7 @@ CSVファイルバリデート
     return false
   end
 
-=begin 
-POST値をSessionへ保存
-=end
+  #POST値をSessionへ保存
   private
   def setSession
     session[:acount] = params[:acount]
@@ -207,9 +194,7 @@ POST値をSessionへ保存
     session[:dateTo] = params[:dateTo]
   end
 
-=begin 
-Session値をフォームへ設定
-=end
+  #Session値をフォームへ設定
   private
   def getSession
       @acount = session[:acount]
@@ -222,9 +207,7 @@ Session値をフォームへ設定
       end
   end
 
-=begin 
-GoogleCalenderApiモデルクラスを生成します
-=end
+  #GoogleCalenderApiモデルクラスを生成します
   private
   def creatGcalSearchModel
       model = GoogleManager::CalSearchModel.new
@@ -233,9 +216,6 @@ GoogleCalenderApiモデルクラスを生成します
       model.acountListModel = session[:acountList];
       model.startMax = params[:dateTo];
       model.startMin = params[:dateFrom];
-      model.orderBy = SYSTEM_YAML["cal_api_orderBy"];
-      model.sortOrder = SYSTEM_YAML["cal_api_sortOrder"];
-      model.maxResults =  SYSTEM_YAML["cal_api_maxResults"];
       return model;
   end
   

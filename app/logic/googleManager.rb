@@ -18,6 +18,15 @@ require "time"
     @apiClient = nil
     @calnder = nil
 
+    #定義ファイルより取得する各種パラメータ郡
+    SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/systemprop.yml')
+    ORDER_BY = SYSTEM_YAML["cal_api_orderBy"]
+    SORT_ORDER = SYSTEM_YAML["cal_api_sortOrder"]
+    MAX_RESULT = SYSTEM_YAML["cal_api_maxResults"]
+    SINGLE_EVENTS = SYSTEM_YAML["cal_api_single_events"]
+    TIMEZONE = SYSTEM_YAML["cal_api_timezone"]
+    FIELDS = SYSTEM_YAML["cal_api_fields"]
+
     #コンストラクタ
     def initialize(client)
        @apiClient = client
@@ -26,24 +35,22 @@ require "time"
 
     #カレンダー情報返却
     def getEventList(searchModel)
-      
-      tempMin = searchModel.startMin.gsub("/", "")
-      tempMax = searchModel.startMax.gsub("/", "")
-      orderBy = searchModel.orderBy
-      sortOrder = searchModel.sortOrder
-      maxResults = searchModel.maxResults
-      min = Time.utc(tempMin[0, 4].to_i, tempMin[4,2].to_i, tempMin[6,2].to_i).iso8601
-      max = Time.utc(tempMax[0, 4].to_i, tempMax[4,2].to_i, tempMax[6,2].to_i).iso8601
+
+      timeMin = creatTimeForUTC(searchModel.startMin)
+      timeMax = creatTimeForUTC(searchModel.startMax)
 
       calResultList = Array.new{};
       searchModel.acountListModel.each do | model |
         result =  @apiClient.execute(:api_method => @calnder.events.list,
-                                     :parameters => {"calendarId" => model.acount,
-                                                     "timeMin"    => min,
-                                                      "timeMax"   => max,
-                                                      "orderby"   => orderBy,
-                                                      "sortOrder" => sortOrder,
-                                                      "maxResults" => maxResults,
+                                     :parameters => {"calendarId"    => model.acount,
+                                                     "timeMin"       => timeMin,
+                                                      "timeMax"      => timeMax,
+                                                      "orderby"      => ORDER_BY,
+                                                      "sortOrder"    => SORT_ORDER,
+                                                      "maxResults"   => MAX_RESULT,
+                                                      "singleEvents" => SINGLE_EVENTS,
+                                                      "timeZone"     => TIMEZONE,
+                                                      "fields"       => FIELDS
                                                       })
         events = result.data.items
         calResult = CalResult.new(model.name, model.acount, events)
@@ -52,6 +59,13 @@ require "time"
       return calResultList;
     end
 
+    #UTC時間を返します
+    private
+    def creatTimeForUTC(time)
+        tempTime = time.gsub("/", "")
+        return Time.utc(tempTime[0, 4].to_i, tempTime[4,2].to_i, tempTime[6,2].to_i).iso8601
+    end
+  
     #カレンダー情報操作メソッド
     def insertEventList
     end
@@ -73,25 +87,16 @@ require "time"
       @masterAcount = nil;
       # アカウントリスト
       @acountListModel = nil;
-      #最大取得件数
-      @maxResults = nil;
       #開始日
       @startMin = nil;
       #終了日
       @startMax = nil;
-      #ソート条件
-      @orderBy = nil;
-      #ソート順
-      @sortOrder = nil;
     end
     attr_accessor :pass
     attr_accessor :masterAcount
     attr_accessor :acountListModel
-    attr_accessor :maxResults
     attr_accessor :startMin
     attr_accessor :startMax
-    attr_accessor :orderBy
-    attr_accessor :sortOrder
   end
 
   #GoogleCalenderApi検索結果モデル
