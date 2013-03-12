@@ -41,12 +41,8 @@ gem 'jquery-rails'
 gem 'google-api-client'
 # googleApi
 # gem 'gcalapi'
-# ExcelApi
-gem 'spreadsheet'
 
-group :development do
-  gem 'thin'
-end
-group :test, :development do
-  gem "rspec-rails", "~> 2.0"
-end
+# WebServer
+gem 'thin'
+
+gem "rspec-rails", "~> 2.0"
