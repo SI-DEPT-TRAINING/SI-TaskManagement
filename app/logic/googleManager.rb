@@ -19,7 +19,7 @@ require "time"
     @calnder = nil
 
     #定義ファイルより取得する各種パラメータ郡
-    SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/systemprop.yml')
+    SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/googleSystemProp.yml')
     ORDER_BY = SYSTEM_YAML["cal_api_orderBy"]
     SORT_ORDER = SYSTEM_YAML["cal_api_sortOrder"]
     MAX_RESULT = SYSTEM_YAML["cal_api_maxResults"]
