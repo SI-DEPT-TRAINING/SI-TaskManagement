@@ -39,8 +39,6 @@ gem 'jquery-rails'
 
 # googleApi
 gem 'google-api-client'
-# googleApi
-# gem 'gcalapi'
 
 # WebServer
 gem 'thin'

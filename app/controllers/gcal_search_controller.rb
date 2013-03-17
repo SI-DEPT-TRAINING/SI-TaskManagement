@@ -5,6 +5,7 @@ require "yaml"
 require "oauthController.rb"
 require "googleManager.rb"
 require "CreateWorkbook.rb"
+#require 'win32ole'
 
 class GcalSearchController < OAuthController
 
@@ -57,29 +58,28 @@ class GcalSearchController < OAuthController
  
   #Excelファイル出力
   def excelOut
+
     @acountList = Array.new
     @errorMsgList = Array.new
 
     unless excelValidate then
  
       #GoogleCalender情報取得
-      model = creatGcalSearchModel
-      calender = GoogleManager::Calender.new(session[:apiClient])
-      calResult = calender.getEventList(model)
-      
+      calResult = getEventList
       #Excelオブジェクト生成
-      workbook = CreateWorkbook.new(calResult)
-      workbook.setTerm(model.startMin,model.startMax)
-      excelbook = workbook.doExe
+      excelbook = createWorkbook(calResult, model)
+      #Excelダウンロード
+      sendExcel(excelbook)
 
-      respond_to do |format|
-        format.xls { send_data excelbook.to_xls }
-      end
+    else
+
+      setSession
+      getSession
+      render :template => 'gcal_search/index'
+
     end
 
-    setSession
-    getSession
-    render :template => 'gcal_search/index'
+
   end
 
   #GoogleOAuth2.0 コールバックアクション
@@ -93,6 +93,38 @@ class GcalSearchController < OAuthController
     render :template => 'gcal_search/index'
   end
  
+  #Excelダウンロード
+  private
+  def sendExcel(book)
+      tmpfile = Tempfile.new ["excel_tmp", ".xls"]
+      book.write tmpfile
+      tmpfile.open
+      filename = "SI-Manage-" + Time.now.strftime('%y%m%d%H%M%S') + ".xls"
+      send_data(
+        tmpfile.read,
+        :disposition=>'attachment',
+        :type=>"application/excel",
+        :filename => filename
+      )
+      tmpfile.close(true)
+  end
+
+  #GoogleCalender情報取得
+  private
+  def getEventList
+      model = creatGcalSearchModel
+      calender = GoogleManager::Calender.new(session[:apiClient])
+      return calender.getEventList(model)
+  end
+  
+  #Excelオブジェクト生成
+  private
+  def createWorkbook(calResult, model)
+      workbook = CreateWorkbook.new(calResult)
+      workbook.setTerm(model.startMin,model.startMax)
+      return workbook.doExe
+  end
+  
   #Excel出力時バリデート
   private
   def excelValidate
@@ -168,18 +200,19 @@ class GcalSearchController < OAuthController
     end
 
     csvFile = params[:file]['csv']
+
+    csvChecker.contentTyoe(csvFile)
+    if csvChecker.error then
+      @errorMsgList << csvChecker.errorMsg
+      return true
+    end
+
     csvChecker.rows(csvFile)
     if csvChecker.error then
       @errorMsgList << csvChecker.errorMsg
       return true
     else
       @line = csvChecker.line
-    end
-
-    csvChecker.contentTyoe(csvFile)
-    if csvChecker.error then
-      @errorMsgList << csvChecker.errorMsg
-      return true
     end
 
     return false
