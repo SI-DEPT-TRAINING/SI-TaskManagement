@@ -53,7 +53,13 @@ class OAuthController < ApplicationController
     client.authorization.scope = OUTH_SCOPE
     client.authorization.redirect_uri = REDIRECT_URI
     uri = client.authorization.authorization_uri
-    redirect_to uri.to_s
+    
+    begin
+      redirect_to uri.to_s
+    rescue => exception
+      logger.error "OauthApi ERROR: #{exception.message}"
+    end
+
   end
   
   #トークン期限切れチェック

@@ -41,22 +41,42 @@ require "time"
 
       calResultList = Array.new{};
       searchModel.acountListModel.each do | model |
-        result =  @apiClient.execute(:api_method => @calnder.events.list,
-                                     :parameters => {"calendarId"    => model.acount,
-                                                     "timeMin"       => timeMin,
-                                                      "timeMax"      => timeMax,
-                                                      "orderby"      => ORDER_BY,
-                                                      "sortOrder"    => SORT_ORDER,
-                                                      "maxResults"   => MAX_RESULT,
-                                                      "singleEvents" => SINGLE_EVENTS,
-                                                      "timeZone"     => TIMEZONE,
-                                                      "fields"       => FIELDS
-                                                      })
-        events = result.data.items
+
+        begin
+          result =  @apiClient.execute(:api_method => @calnder.events.list,
+                                       :parameters => {"calendarId"   => model.acount,
+                                                       "timeMin"      => timeMin,
+                                                       "timeMax"      => timeMax,
+                                                       "orderby"      => ORDER_BY,
+                                                       "sortOrder"    => SORT_ORDER,
+                                                       "maxResults"   => MAX_RESULT,
+                                                       "singleEvents" => SINGLE_EVENTS,
+                                                       "timeZone"     => TIMEZONE,
+                                                       "fields"       => FIELDS
+                                                        })
+        rescue => exception
+         logger.error "CalenderAPI ERROR: #{exception.message}"
+         parameters = {:calendarId   => model.acount,
+                       :timeMin      => timeMin,
+                       :timeMax      => timeMax,
+                       :orderby      => ORDER_BY,
+                       :sortOrder    => SORT_ORDER,
+                       :maxResults   => MAX_RESULT,
+                       :singleEvents => SINGLE_EVENTS,
+                       :timeZone     => TIMEZONE,
+                       :fields       => FIELDS}
+         logger.error "parameters: #{parameters.inspect}"
+        end
+
+        events = nil
+        if result.data != nil then
+          events = result.data.items
+        end
+
         calResult = CalResult.new(model.name, model.acount, events)
-        calResultList <<  calResult;
+        calResultList << calResult;
       end
-      return calResultList;
+      return calResultList
     end
 
     #UTCŽžŠÔ‚ð•Ô‚µ‚Ü‚·

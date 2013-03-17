@@ -39,14 +39,10 @@ gem 'jquery-rails'
 
 # googleApi
 gem 'google-api-client'
-# googleApi
-# gem 'gcalapi'
-# ExcelApi
-gem 'spreadsheet'
 
-group :development do
-  gem 'thin'
-end
+# app server
+gem 'thin'
+
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
 end

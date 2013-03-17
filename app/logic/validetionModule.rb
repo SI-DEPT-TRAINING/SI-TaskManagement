@@ -133,15 +133,20 @@ CSVファイルチェッカー
           end
         end
       end
+
       # ----------------------------
       # 拡張子チェック
       # ----------------------------
       def contentTyoe(csvFile)
+
         msgStr="アップロード可能なファイルはCSVファイルのみです。"
-        if csvFile.content_type != "text/csv" then
+        name = csvFile.original_filename
+
+        if !['.csv'].include?(File.extname(name).downcase)
           @error = true
           @errorMsg = msgStr
         end
+
       end
 
       attr_accessor :error

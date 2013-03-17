@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'win32ole'
+#require 'win32ole'
 require './app/models/util/UtilExcel.rb'
 module Excel
 end
