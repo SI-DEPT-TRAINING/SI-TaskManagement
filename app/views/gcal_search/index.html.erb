@@ -36,10 +36,6 @@
 	
 				<!-- SEARCH_FEILD -->
 		    	<div id="search" align="left" style="margin-left: 30px; margin-top: 0px; padding-top: 0px;">
-		    		<p style="font-size: 0.7em;">アカウントID</p>
-		    		<input type="text" name="acount" id="acount" size="30" value=<%= @acount %> >
-		    		<p style="font-size: 0.7em;">パスワード</p>
-		    		<input type="text" name="password" id="password" size="30" value=<%= @password %> >
 		    		<p style="font-size: 0.7em;">検索期間</p>
 		    		<input type="text"  name="dateFrom" id="dateFrom" size="30"  value=<%= @dateFrom %> >　〜　<input type="text"  name="dateTo" id="dateTo" size="30"  value=<%= @dateTo %> >
 		    		<br/>
@@ -83,8 +79,8 @@
 				    </thead>
 				<% end %>
 					<tr>
-						<td style="font-size: 0.7em;"><%= model.name %></td>
-						<td style="font-size: 0.7em;"><%= model.acount %></td>
+						<td style="font-size: 0.7em;"><%= model.name.force_encoding("UTF-8") %></td>
+						<td style="font-size: 0.7em;"><%= model.acount.force_encoding("UTF-8") %></td>
 				    </tr>
 				<% end %>
 				<% if @acountList.length > 0 then %>

@@ -9,8 +9,6 @@ require "CreateWorkbook.rb"
 
 class GcalSearchController < OAuthController
 
-  @acount = nil
-  @password = nil
   @dateFrom = nil
   @dateTo = nil
   @acountList = Array.new;
@@ -128,26 +126,9 @@ class GcalSearchController < OAuthController
   #Excel出力時バリデート
   private
   def excelValidate
-
     isValidate = false
- 
-    #アカウント名
-    checkerAcount = ValidetionModule::MustChecker.new("アカウント", params[:acount])
-    if checkerAcount.error then
-      @errorMsgList << checkerAcount.errorMsg
-      isValidate = true
-    end
-
-    #パスワード
-    checkerPass = ValidetionModule::MustChecker.new("パスワード", params[:password])
-    if checkerPass.error then
-      @errorMsgList << checkerPass.errorMsg
-      isValidate = true
-    end
-    
     #日付系
     isValidate = dateValidate(isValidate)
-
     #CSVデータ
     checkerCsvData = ValidetionModule::MustChecker.new("CSVデータ", session[:acountList])
     if checkerCsvData.error then
@@ -221,8 +202,6 @@ class GcalSearchController < OAuthController
   #POST値をSessionへ保存
   private
   def setSession
-    session[:acount] = params[:acount]
-    session[:password] = params[:password]
     session[:dateFrom] = params[:dateFrom]
     session[:dateTo] = params[:dateTo]
   end
@@ -230,8 +209,6 @@ class GcalSearchController < OAuthController
   #Session値をフォームへ設定
   private
   def getSession
-      @acount = session[:acount]
-      @password = session[:password]
       @dateFrom = session[:dateFrom]
       @dateTo = session[:dateTo]
       
@@ -244,8 +221,6 @@ class GcalSearchController < OAuthController
   private
   def creatGcalSearchModel
       model = GoogleManager::CalSearchModel.new
-      model.pass =  params[:password]
-      model.masterAcount = params[:acount];
       model.acountListModel = session[:acountList];
       model.startMax = params[:dateTo];
       model.startMin = params[:dateFrom];
