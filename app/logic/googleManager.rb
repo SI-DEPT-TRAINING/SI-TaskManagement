@@ -67,16 +67,23 @@ require "time"
                        :fields       => FIELDS}
          logger.error "parameters: #{parameters.inspect}"
         end
-
-        events = nil
-        if result.data != nil then
-          events = result.data.items
-        end
-
-        calResult = CalResult.new(model.name, model.acount, events)
-        calResultList << calResult;
+        calResultList << creatEventsResult(result);
       end
       return calResultList
+    end
+
+    #カレンダーレスポンスモデルを返します
+    private
+    def creatEventsResult(result)
+        events = nil
+        error = nil
+        if result.data != nil then
+          events = result.data.items
+          if result.data['error'] != nil then
+            error = result.data['error']
+          end
+        end
+        return CalResult.new(model.name, model.acount, events, error)
     end
 
     #UTC時間を返します
@@ -101,10 +108,6 @@ require "time"
   #GoogleCalenderApi検索条件モデル
   class CalSearchModel
     def initialize
-      # パスワード
-      @pass = nil;
-      # カレンダー情報取得アカウント
-      @masterAcount = nil;
       # アカウントリスト
       @acountListModel = nil;
       #開始日
@@ -112,8 +115,6 @@ require "time"
       #終了日
       @startMax = nil;
     end
-    attr_accessor :pass
-    attr_accessor :masterAcount
     attr_accessor :acountListModel
     attr_accessor :startMin
     attr_accessor :startMax
@@ -121,17 +122,20 @@ require "time"
 
   #GoogleCalenderApi検索結果モデル
   class CalResult
-    def initialize(name, acount, eventList)
+    def initialize(name, acount, eventLis, errort)
       #氏名
       @name = name;
       #アカウント
       @acont = acount;
       #カレンダー情報リスト
       @eventList = eventList;
+      #カレンダーエラー情報
+      @error = error
     end
     attr_accessor :name
     attr_accessor :acont
     attr_accessor :eventList
+    attr_accessor :error
   end
 
 end
