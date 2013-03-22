@@ -1,3 +1,4 @@
+
 # -*- encoding: utf-8 -*-
 ############################
 # api_client OAuth2.0      #
@@ -67,14 +68,14 @@ require "time"
                        :fields       => FIELDS}
          logger.error "parameters: #{parameters.inspect}"
         end
-        calResultList << creatEventsResult(result);
+        calResultList << creatEventsResult(result, model);
       end
       return calResultList
     end
 
     #カレンダーレスポンスモデルを返します
     private
-    def creatEventsResult(result)
+    def creatEventsResult(result, model)
         events = nil
         error = nil
         if result.data != nil then

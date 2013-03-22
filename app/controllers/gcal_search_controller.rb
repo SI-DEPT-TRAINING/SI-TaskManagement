@@ -65,6 +65,7 @@ class GcalSearchController < OAuthController
       #GoogleCalender情報取得
       calResult = getEventList
       #Excelオブジェクト生成
+      model = createGcalSearchModel
       excelbook = createWorkbook(calResult, model)
       #Excelダウンロード
       sendExcel(excelbook)
@@ -110,7 +111,7 @@ class GcalSearchController < OAuthController
   #GoogleCalender情報取得
   private
   def getEventList
-      model = creatGcalSearchModel
+      model = createGcalSearchModel
       calender = GoogleManager::Calender.new(session[:apiClient])
       return calender.getEventList(model)
   end
@@ -219,7 +220,7 @@ class GcalSearchController < OAuthController
 
   #GoogleCalenderApiモデルクラスを生成します
   private
-  def creatGcalSearchModel
+  def createGcalSearchModel
       model = GoogleManager::CalSearchModel.new
       model.acountListModel = session[:acountList];
       model.startMax = params[:dateTo];
