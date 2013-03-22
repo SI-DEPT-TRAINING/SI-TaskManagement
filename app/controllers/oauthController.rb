@@ -12,7 +12,8 @@ class OAuthController < ApplicationController
   CLIENT_ID = SYSTEM_YAML["client_id"]
   CLIENT_SECRET = SYSTEM_YAML["client_secret"]
   OUTH_SCOPE = SYSTEM_YAML["scope"]
-  REDIRECT_URI = SYSTEM_YAML["redirect_uri"]
+  RAILS_ENV = ENV['RAILS_ENV']
+  REDIRECT_URI = SYSTEM_YAML[RAILS_ENV]["redirect_uri"]
   DISCOVER = SYSTEM_YAML["discovered_api"]
   VERSION =  SYSTEM_YAML["verision"]
 
