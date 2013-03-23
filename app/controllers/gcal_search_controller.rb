@@ -5,7 +5,8 @@ require "yaml"
 require "oauthController.rb"
 require "googleManager.rb"
 require "CreateWorkbook.rb"
-#require 'win32ole'
+require 'date'
+require 'rjb'
 
 class GcalSearchController < OAuthController
 
@@ -96,7 +97,8 @@ class GcalSearchController < OAuthController
   private
   def sendExcel(book)
       tmpfile = Tempfile.new ["excel_tmp", ".xls"]
-      book.write tmpfile
+      # book.write tmpfile
+      UtilPOI.saveWorkbook(book, tmpfile.path)
       tmpfile.open
       filename = "SI-Manage-" + Time.now.strftime('%y%m%d%H%M%S') + ".xls"
       send_data(
@@ -120,7 +122,11 @@ class GcalSearchController < OAuthController
   private
   def createWorkbook(calResult, model)
       workbook = CreateWorkbook.new(calResult)
-      workbook.setTerm(model.startMin,model.startMax)
+      /^(\d+)\/(\d+)\/(\d+)$/ =~ model.startMin
+      startMin = Date.new($1.to_i, $2.to_i, $3.to_i)
+      /^(\d+)\/(\d+)\/(\d+)$/ =~ model.startMax
+      startMax = Date.new($1.to_i, $2.to_i, $3.to_i)
+      workbook.setTerm(startMin, startMax)
       return workbook.doExe
   end
   
