@@ -3,6 +3,8 @@ require "rubygems"
 require "google/api_client"
 require "yaml"
 require "time"
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 class OAuthController < ApplicationController
   before_filter :creatToken

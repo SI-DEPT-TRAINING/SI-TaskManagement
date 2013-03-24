@@ -42,5 +42,6 @@ gem 'google-api-client'
 
 # WebServer
 gem 'thin'
+gem 'rjb'
 
 gem "rspec-rails", "~> 2.0"

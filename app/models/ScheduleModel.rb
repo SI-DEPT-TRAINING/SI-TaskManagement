@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require "gcalapi";
+#require "gcalapi";
 require 'time';
 
 class ScheduleModel
@@ -54,8 +54,8 @@ class ScheduleModel
     return hour
   end
   def getWorkTimeMinuts(unit=1)
-    startTime = googleCalObj.start
-    endTime = googleCalObj.end
+    startTime = googleCalObj.start.dateTime
+    endTime = googleCalObj.end.dateTime
     
     days = (endTime - startTime).divmod(24*60*60) #=> [2.0, 45000.0]
     hours = days[1].divmod(60*60) #=> [12.0, 1800.0]
@@ -68,10 +68,10 @@ class ScheduleModel
     return min - mod 
   end
   def getStartDate()
-    return googleCalObj.st
+    return googleCalObj.start.dateTime
   end
   def getEndDate()
-    return googleCalObj.en
+    return googleCalObj.end.dateTime
   end
   
   def isProcessTarget?()
@@ -89,8 +89,8 @@ class ScheduleModel
   
   def getTermString()
     # 開始と終了の日時を取得。
-    startDate = @googleCalObj.st
-    endDate = @googleCalObj.en
+    startDate = @googleCalObj.start.dateTime
+    endDate = @googleCalObj.end.dateTime
     # 開始日付, 開始時刻, 終了時刻を文字列として取得。
     start_date_string = startDate.strftime("%Y/%m/%d")
     start_time_string = startDate.strftime("%H:%M")
@@ -106,13 +106,13 @@ class ScheduleModel
     if (checkSectionList? == false)
       return -1
     end
-    scheduleList.each do |schedule|
+    scheduleList.getList.each do |schedule|
       if (schedule.isProcessTarget? == false)
         next
       end
       tmpSectionList = schedule.getSectionList()
       if (mySectionList[0] == "A001")
-        i = 1
+        # i = 1
       end
       if (mySectionList[0] != tmpSectionList[0])
       index +=1
@@ -139,5 +139,31 @@ class ScheduleModel
     end
     
     return -1
+  end
+  def isSameSection?(schedule)
+    if (checkSectionList? == false)
+      # 自分のセクション情報自体が不正。
+      return false
+    end
+    if (schedule.isProcessTarget? == false)
+      return false
+    end
+    
+    # 自分のセクション情報を取得。
+    mySectionList = getSectionList()
+    # 引数のセクション情報を取得。
+    tmpSectionList = schedule.getSectionList()
+    if (mySectionList[0] != tmpSectionList[0])
+      return false # 内容一致せず。
+    end
+    if (mySectionList[1] != tmpSectionList[1])
+      return false # 内容一致せず。
+    end
+    if (mySectionList[2] != tmpSectionList[2])
+      return false # 内容一致せず。
+    end
+      
+    # 分類の内容が一致した。
+    return true
   end
 end

@@ -1,4 +1,3 @@
-
 # -*- encoding: utf-8 -*-
 ############################
 # api_client OAuth2.0      #
@@ -123,7 +122,7 @@ require "time"
 
   #GoogleCalenderApi検索結果モデル
   class CalResult
-    def initialize(name, acount, eventLis, errort)
+    def initialize(name, acount, eventList, errort)
       #氏名
       @name = name;
       #アカウント
