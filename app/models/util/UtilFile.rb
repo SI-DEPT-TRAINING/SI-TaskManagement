@@ -1,13 +1,9 @@
 # -*- encoding: utf-8 -*-
-require "win32ole";
-
 class UtilFile
-  # 
-  @@fso = WIN32OLE.new('Scripting.FileSystemObject')
-  
+
   def self.getFilenameFullPath(file_abspath)
     # ファイル名（フルパス）の取得。
-    template_fullpath = @@fso.GetAbsolutePathName(file_abspath)
+    template_fullpath = fso.GetAbsolutePathName(file_abspath)
     return template_fullpath 
   end
   

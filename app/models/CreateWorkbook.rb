@@ -8,7 +8,7 @@ module Excel
 end
 
 classpaths = Dir.glob("./lib/*.jar")
-Rjb::load(classpath = classpaths.join(';'), jvmargs=[])
+#Rjb::load(classpath = classpaths.join(';'), jvmargs=[])
 
 module POIMod
   POIFSFileSystem = Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
@@ -43,12 +43,10 @@ class CreateWorkbook
   
   def doExe
     system = Rjb::import("java.lang.System")
-    system.out.println("Hello World!")
     # データ取得。
     scheduleList = getExcelScheduleList()
     # データ書き込み。
     excelbook = getExcelWorkbook(scheduleList);
-    
     return excelbook;
   end
   
@@ -284,13 +282,15 @@ class CreateWorkbook
     
     # テンプレートからファイル作成。
     template_fullpath = getTemplateFileFullpath()
-    time_string = Time.now.strftime("%Y%m%d_%H%M%S")
-    dest = UtilFile.getParentPath(template_fullpath) + '/output' + time_string + '.xls'
-    FileUtils.copy(template_fullpath, dest)
-    # ファイルを開く。
-    #### book = @excelapp.workbooks.add(dest)
-    book = UtilPOI.openWorkbook(dest)
     
+    # TODO 
+    #time_string = Time.now.strftime("%Y%m%d_%H%M%S")
+    #dest = UtilFile.getParentPath(template_fullpath) + '/output' + time_string + '.xls'
+    #FileUtils.copy(template_fullpath, dest)
+
+    #book = UtilPOI.openWorkbook(dest)
+    book = UtilPOI.openWorkbook(template_fullpath)
+
     # 「設定」シートから設定の読み込み。
     loadSetting(book)
     
@@ -305,7 +305,7 @@ class CreateWorkbook
       outputSchedule(sheet, memberScheduleList)
       
       # 列幅調整。
-      autoFillColumnWidth(sheet)
+      #autoFillColumnWidth(sheet)
     end
     
     # 全メンバーのスケジュールのみを取得。
@@ -316,12 +316,8 @@ class CreateWorkbook
     # シートにスケジュール出力。
     outputSchedule(sheet, scheduleList)
     # 列幅調整。
-    autoFillColumnWidth(sheet)
-      
-    
-    # 渡す際は閉じなくてよいはず。
-    # book.Close() # TODO
-    
+    #autoFillColumnWidth(sheet)
+
     return book;
   end
   private :getExcelWorkbook
