@@ -1,15 +1,17 @@
 #OAuth2.0 Params
-scope: https://www.googleapis.com/auth/calendar
-client_id: 846777061871.apps.googleusercontent.com
-client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
 discovered_api: calendar
 verision : v3
+scope: https://www.googleapis.com/auth/calendar
 
 development:
   redirect_uri: http://localhost:3000/taskManagement/oauth2callback
-
+  client_id: 846777061871.apps.googleusercontent.com
+  client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
+  
 production:
-  redirect_uri: http://192.168.0.151/training/taskManagement/oauth2callback
+  redirect_uri: http://localhost:3000/training/taskManagement/oauth2callback
+  client_id: 846777061871-k1coupepin7fd6firah1b0a0cco5v4r8.apps.googleusercontent.com
+  client_secret: l-AoqInn4OR5DeSQCHYL4PMP
 
 #calenderApi Params
 cal_api_orderBy: startTime

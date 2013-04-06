@@ -1,7 +1,6 @@
 # coding: utf-8
 require 'errorHandling.rb'
 class ApplicationController < ActionController::Base
-  after_filter :convert_to_utf8
   include ErrorHandling
   #protect_from_forgery
 
@@ -24,19 +23,6 @@ class ApplicationController < ActionController::Base
     else
         render_500
     end
-  end
-
-  #excel出力
-  protected
-  def output_excel(template, fname = nil)
-    options = fname ? { filename:IEpatch(fname) } : {}
-    send_data(render_to_string(template:template, layout:'excel.html'), options)
-  end
-
-  #Internet Explorerだとファイル名が文字化けする??
-  private
-  def IEpatch(fname)
-    /MSIE/ =~ request.env['HTTP_USER_AGENT'] ? CGI.escape(fname) : fname
   end
 
   #フロント：UTF-8対応

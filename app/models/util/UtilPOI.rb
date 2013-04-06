@@ -1,8 +1,7 @@
 # -*- encoding: utf-8 -*-
 require "rjb";
-
 classpaths = Dir.glob("./lib/*.jar")
-Rjb::load(classpath = classpaths.join(';'), jvmargs=[])
+Rjb::load(classpath = classpaths.join(','), jvmargs=[])
 
 module JavaIOMod
   FileInputStream = Rjb::import("java.io.FileInputStream")
@@ -19,18 +18,20 @@ module POIMod
 end
 
 class UtilPOI
-  # 
   def self.openWorkbook(filename)
     fis = JavaIOMod::FileInputStream.new(filename)
     fs = POIMod::POIFSFileSystem.new(fis);
     book = POIMod::HSSFWorkbook.new(fs)
+    fis.close
     return book
   end
+
   def self.saveWorkbook(book, filename)
     fileOut = JavaIOMod::FileOutputStream.new(filename)
     book.write(fileOut);
     fileOut.close()
   end
+  
   def self.deleteCell(sheet, address)
     corner = UtilExcel.getCorner(address)
     ###range = POIMod::CellRangeAddress.new(10, corner[1].to_i, 23, corner[3].to_i)
@@ -38,6 +39,7 @@ class UtilPOI
     # POIMod::PoiUtil.deleteRangeLeft(sheet, range)
     return ''
   end
+
   def self.InsertColumn(sheet, colNumber)
     colIndex = colNumber - 1
     for idxRow in 0 .. sheet.getLastRowNum() - 1

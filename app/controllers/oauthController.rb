@@ -3,19 +3,17 @@ require "rubygems"
 require "google/api_client"
 require "yaml"
 require "time"
-require 'openssl'
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 class OAuthController < ApplicationController
   before_filter :creatToken
   
   #各種パラメータは定義ファイルより取得する
   SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/googleSystemProp.yml')
-  CLIENT_ID = SYSTEM_YAML["client_id"]
-  CLIENT_SECRET = SYSTEM_YAML["client_secret"]
-  OUTH_SCOPE = SYSTEM_YAML["scope"]
   RAILS_ENV = ENV['RAILS_ENV']
   REDIRECT_URI = SYSTEM_YAML[RAILS_ENV]["redirect_uri"]
+  CLIENT_ID = SYSTEM_YAML[RAILS_ENV]["client_id"]
+  CLIENT_SECRET = SYSTEM_YAML[RAILS_ENV]["client_secret"]
+  OUTH_SCOPE = SYSTEM_YAML["scope"]
   DISCOVER = SYSTEM_YAML["discovered_api"]
   VERSION =  SYSTEM_YAML["verision"]
 
