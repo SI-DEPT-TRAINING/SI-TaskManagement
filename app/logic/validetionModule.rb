@@ -146,13 +146,9 @@ CSVファイルチェッカー
           @error = true
           @errorMsg = msgStr
         end
-
       end
-
       attr_accessor :error
       attr_accessor :errorMsg
       attr_accessor :line
   end
-
-
 end

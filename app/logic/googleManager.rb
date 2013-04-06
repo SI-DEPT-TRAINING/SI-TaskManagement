@@ -8,7 +8,6 @@ require "google/api_client"
 require "yaml"
 require "time"
 
-
   ############################
   # Calendar Version 3       #
   ############################

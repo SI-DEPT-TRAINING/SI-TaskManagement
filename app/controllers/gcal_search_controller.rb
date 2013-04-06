@@ -7,8 +7,10 @@ require "googleManager.rb"
 require "CreateWorkbook.rb"
 require 'date'
 require 'rjb'
+require 'stringio'
 
 class GcalSearchController < OAuthController
+  after_filter :convert_to_utf8, :except => :excelOut
 
   @dateFrom = nil
   @dateTo = nil
@@ -57,12 +59,9 @@ class GcalSearchController < OAuthController
  
   #Excelファイル出力
   def excelOut
-
     @acountList = Array.new
     @errorMsgList = Array.new
-
     unless excelValidate then
- 
       #GoogleCalender情報取得
       calResult = getEventList
       #Excelオブジェクト生成
@@ -70,16 +69,11 @@ class GcalSearchController < OAuthController
       excelbook = createWorkbook(calResult, model)
       #Excelダウンロード
       sendExcel(excelbook)
-
     else
-
       setSession
       getSession
       render :template => 'gcal_search/index'
-
     end
-
-
   end
 
   #GoogleOAuth2.0 コールバックアクション
@@ -96,18 +90,17 @@ class GcalSearchController < OAuthController
   #Excelダウンロード
   private
   def sendExcel(book)
-      tmpfile = Tempfile.new ["excel_tmp", ".xls"]
-      # book.write tmpfile
-      UtilPOI.saveWorkbook(book, tmpfile.path)
-      tmpfile.open
-      filename = "SI-Manage-" + Time.now.strftime('%y%m%d%H%M%S') + ".xls"
-      send_data(
-        tmpfile.read,
-        :disposition=>'attachment',
-        :type=>"application/excel",
-        :filename => filename
-      )
-      tmpfile.close(true)
+    tmpfile = Tempfile.new ["excel_tmp", ".xls"]
+    UtilPOI.saveWorkbook(book, tmpfile.path)
+    tmpfile.open
+    filename = "SI-Manage-" + Time.now.strftime('%y%m%d%H%M%S') + ".xls"
+    send_data(
+      tmpfile.read,
+      :disposition=>'attachment',
+      :type=>"application/excel",
+      :filename => filename
+    )
+    tmpfile.close(true)
   end
 
   #GoogleCalender情報取得
