@@ -14,8 +14,6 @@ class OAuthController < ApplicationController
   CLIENT_ID = SYSTEM_YAML[RAILS_ENV]["client_id"]
   CLIENT_SECRET = SYSTEM_YAML[RAILS_ENV]["client_secret"]
   OUTH_SCOPE = SYSTEM_YAML["scope"]
-  DISCOVER = SYSTEM_YAML["discovered_api"]
-  VERSION =  SYSTEM_YAML["verision"]
 
   #トークン生成
   def creatToken
