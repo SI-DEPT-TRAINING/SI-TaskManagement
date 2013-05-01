@@ -13,11 +13,11 @@ require "time"
   ############################
   class Calender
 
-    #GoogleToken
+    # GoogleToken
     @apiClient = nil
     @calnder = nil
 
-    #’è‹`ƒtƒ@ƒCƒ‹‚æ‚èæ“¾‚·‚éŠeíƒpƒ‰ƒ[ƒ^ŒS
+    # å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã‚ˆã‚Šå–å¾—ã™ã‚‹å„ç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿éƒ¡
     SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/googleSystemProp.yml')
     ORDER_BY = SYSTEM_YAML["cal_api_orderBy"]
     SORT_ORDER = SYSTEM_YAML["cal_api_sortOrder"]
@@ -25,14 +25,16 @@ require "time"
     SINGLE_EVENTS = SYSTEM_YAML["cal_api_single_events"]
     TIMEZONE = SYSTEM_YAML["cal_api_timezone"]
     FIELDS = SYSTEM_YAML["cal_api_fields"]
+   DISCOVER = SYSTEM_YAML["discovered_api"]
+   VERSION =  SYSTEM_YAML["verision"]
 
-    #ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    # ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     def initialize(client)
        @apiClient = client
-       @calnder = client.discovered_api('calendar', 'v3')
+       @calnder = client.discovered_api(DISCOVER, VERSION)
     end
 
-    #ƒJƒŒƒ“ƒ_[î•ñ•Ô‹p
+    # ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼æƒ…å ±è¿”å´
     def getEventList(searchModel)
 
       timeMin = creatTimeForUTC(searchModel.startMin)
@@ -71,7 +73,7 @@ require "time"
       return calResultList
     end
 
-    #ƒJƒŒƒ“ƒ_[ƒŒƒXƒ|ƒ“ƒXƒ‚ƒfƒ‹‚ğ•Ô‚µ‚Ü‚·
+    # ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ¢ãƒ‡ãƒ«ã‚’è¿”ã—ã¾ã™
     private
     def creatEventsResult(result, model)
         events = nil
@@ -85,14 +87,14 @@ require "time"
         return CalResult.new(model.name, model.acount, events, error)
     end
 
-    #UTCŠÔ‚ğ•Ô‚µ‚Ü‚·
+    # UTCæ™‚é–“ã‚’è¿”ã—ã¾ã™
     private
     def creatTimeForUTC(time)
         tempTime = time.gsub("/", "")
         return Time.utc(tempTime[0, 4].to_i, tempTime[4,2].to_i, tempTime[6,2].to_i).iso8601
     end
   
-    #ƒJƒŒƒ“ƒ_[î•ñ‘€ìƒƒ\ƒbƒh
+    # ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼æƒ…å ±æ“ä½œãƒ¡ã‚½ãƒƒãƒ‰
     def insertEventList
     end
 
@@ -104,14 +106,14 @@ require "time"
     
   end
 
-  #GoogleCalenderApiŒŸõğŒƒ‚ƒfƒ‹
+  # GoogleCalenderApiæ¤œç´¢æ¡ä»¶ãƒ¢ãƒ‡ãƒ«
   class CalSearchModel
     def initialize
-      # ƒAƒJƒEƒ“ƒgƒŠƒXƒg
+      # ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒªã‚¹ãƒˆ
       @acountListModel = nil;
-      #ŠJn“ú
+      # é–‹å§‹æ—¥
       @startMin = nil;
-      #I—¹“ú
+      # çµ‚äº†æ—¥
       @startMax = nil;
     end
     attr_accessor :acountListModel
@@ -119,16 +121,16 @@ require "time"
     attr_accessor :startMax
   end
 
-  #GoogleCalenderApiŒŸõŒ‹‰Êƒ‚ƒfƒ‹
+  # GoogleCalenderApiæ¤œç´¢çµæœãƒ¢ãƒ‡ãƒ«
   class CalResult
     def initialize(name, acount, eventList, errort)
-      #–¼
+      # æ°å
       @name = name;
-      #ƒAƒJƒEƒ“ƒg
+      # ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ
       @acont = acount;
-      #ƒJƒŒƒ“ƒ_[î•ñƒŠƒXƒg
+      # ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼æƒ…å ±ãƒªã‚¹ãƒˆ
       @eventList = eventList;
-      #ƒJƒŒƒ“ƒ_[ƒGƒ‰[î•ñ
+      # ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¨ãƒ©ãƒ¼æƒ…å ±
       @error = error
     end
     attr_accessor :name

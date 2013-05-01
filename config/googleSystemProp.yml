@@ -7,7 +7,7 @@ development:
   redirect_uri: http://localhost:3000/taskManagement/oauth2callback
   client_id: 846777061871.apps.googleusercontent.com
   client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
-  
+
 production:
   redirect_uri: http://localhost:3000/training/taskManagement/oauth2callback
   client_id: 846777061871-k1coupepin7fd6firah1b0a0cco5v4r8.apps.googleusercontent.com
