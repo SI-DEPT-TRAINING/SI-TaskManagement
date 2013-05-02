@@ -9,7 +9,7 @@ class OAuthController < ApplicationController
   
   #各種パラメータは定義ファイルより取得する
   SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/googleSystemProp.yml')
-  RAILS_ENV = ENV['RAILS_ENV']
+  RAILS_ENV = Rails.env
   REDIRECT_URI = SYSTEM_YAML[RAILS_ENV]["redirect_uri"]
   CLIENT_ID = SYSTEM_YAML[RAILS_ENV]["client_id"]
   CLIENT_SECRET = SYSTEM_YAML[RAILS_ENV]["client_secret"]
