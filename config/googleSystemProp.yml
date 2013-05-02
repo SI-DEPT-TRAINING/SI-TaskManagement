@@ -9,7 +9,7 @@ development:
   client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
 
 production:
-  redirect_uri: http://localhost/training/taskManagement/oauth2callback
+  redirect_uri: http://www.ruby.cloud.com/training/taskManagement/oauth2callback
   client_id: 846777061871-k1coupepin7fd6firah1b0a0cco5v4r8.apps.googleusercontent.com
   client_secret: l-AoqInn4OR5DeSQCHYL4PMP
 
