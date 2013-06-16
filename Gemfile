@@ -45,3 +45,9 @@ gem 'thin'
 gem 'rjb'
 
 gem "rspec-rails", "~> 2.0"
+
+group :production do
+  gem 'execjs'  
+  gem 'therubyracer'
+end
+
