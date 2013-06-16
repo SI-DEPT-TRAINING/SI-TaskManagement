@@ -23,7 +23,7 @@ function setEventHandler() {
 		// jQuery_Ajax_通信実行
 	    $.ajax({
 		    type: 'post',
-		    url: '/taskManagement/ajaxSetSession',
+		    url: 'training/taskManagement/ajaxSetSession',
 		    data: data,
 		    dataType: 'json',
 		    success: modalOpen
