@@ -20,7 +20,6 @@ function setEventHandler() {
 		var csrf_token = $("meta[name=csrf-token]").attr("content");
 		var data = {acount: _acount.val(), password: _password.val(), dateFrom: _dateFrom.val(), dateTo: _dateTo.val()};
 
-		// URLは環境依存、TODO
 		// jQuery_Ajax_通信実行
 	    $.ajax({
 		    type: 'post',
@@ -35,7 +34,7 @@ function setEventHandler() {
 // モーダルオープン
 function modalOpen(data) {
 
-	// 通信結果のエラーハンドリングを追加する　TODO
+	// 通信結果のエラーハンドリングを追加する
 	$('#modal').dialog({
 		modal: true,
 		title: 'CSV UpLoad!!'
