@@ -1,5 +1,10 @@
 tmp/
 log/
+public/assets/
+vendor/assets/
+vendor/bundle/
+.bundle
+.sass-cache
 .project
 .settings
 Gemfile.lock

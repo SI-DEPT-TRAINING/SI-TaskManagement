@@ -34,4 +34,13 @@ TaskManagement::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Pry
+  #silence_warnings do
+  #  begin
+  #    require 'pry'
+  #    IRB = Pry
+  #  rescue LoadError
+  # end
+
 end

@@ -1,5 +1,7 @@
 # coding: utf-8
 require 'errorHandling.rb'
+require 'pry-remote'
+
 class ApplicationController < ActionController::Base
   include ErrorHandling
   #protect_from_forgery

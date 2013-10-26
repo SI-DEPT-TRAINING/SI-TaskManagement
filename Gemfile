@@ -28,9 +28,6 @@ gem 'jquery-rails'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
 # Deploy with Capistrano
 # gem 'capistrano'
 
@@ -41,13 +38,43 @@ gem 'jquery-rails'
 gem 'google-api-client'
 
 # WebServer
-gem 'thin'
+#gem 'thin'
+gem 'unicorn'
+
+# Excel出力用
 gem 'rjb'
 
+# UnitTest
 gem "rspec-rails", "~> 2.0"
 
+# CentOS用
 group :production do
-  gem 'execjs'  
+  gem 'execjs'
   gem 'therubyracer'
 end
+
+# Debugger
+group :devlopment do
+  # Pry本体
+  gem 'pry'
+  # デバッカー
+  gem 'pry-remote'
+  gem 'pry-debugger'
+  # show-stackコマンド,framコマンド
+  gem 'pry-stack_explorer'
+  # Railsコンソールの多機能版
+  gem 'pry-rails'
+  # PryでのSQLの結果を綺麗に表示
+  gem 'hirb'
+  gem 'hirb-unicode'
+  # pry画面でのドキュメント/ソース表示
+  gem "pry-doc"
+  # pryの色付けをしてくれる
+  gem 'awesome_print'
+  # pryの入力に色付け
+  gem 'pry-coolline'
+end
+
+
+
 

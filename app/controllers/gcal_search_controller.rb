@@ -9,22 +9,23 @@ require 'date'
 require 'rjb'
 require 'stringio'
 
-class GcalSearchController < OAuthController
+class GcalSearchController < ApplicationController
   after_filter :convert_to_utf8, :except => :excelOut
 
   @dateFrom = nil
   @dateTo = nil
   @acountList = Array.new;
   @errorMsgList = Array.new;
-  @line = nil 
+  @line = nil
 
   #検索画面初期表示
   def index
+
     @acountList = Array.new;
     @errorMsgList = Array.new;
     render :template => 'gcal_search/index'
   end
-  
+
   #Ajax通信
   def ajaxSetSession
     setSession
@@ -33,7 +34,7 @@ class GcalSearchController < OAuthController
       format.json { render json: @respondData}
     end
   end
-  
+
   #CSVファイルアップロード
   def csvUpLoad
 
@@ -56,11 +57,12 @@ class GcalSearchController < OAuthController
     getSession
     render :template => 'gcal_search/index'
   end
- 
+
   #Excelファイル出力
   def excelOut
     @acountList = Array.new
     @errorMsgList = Array.new
+
     unless excelValidate then
       #GoogleCalender情報取得
       calResult = getEventList
@@ -81,7 +83,7 @@ class GcalSearchController < OAuthController
 
     @acountList = Array.new;
     @errorMsgList = Array.new;
-    
+
     #Token情報をSessionへ保存
     setGoogleToken
     render :template => 'gcal_search/index'
