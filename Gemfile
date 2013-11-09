@@ -12,6 +12,11 @@ end
 group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor', '0.0.2'
+
+# set JAVA_HOME so Heroku will install gems that need it
+heroku_java_home = '/usr/lib/jvm/java-6-openjdk'
+ENV['JAVA_HOME'] = heroku_java_home if Dir.exist?(heroku_java_home)
+
 end
 
 # Gems used only for assets and not required
