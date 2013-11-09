@@ -1,0 +1,241 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+
+Started GET "/login" for 127.0.0.1 at 2013-10-27 03:26:01 +0900
+Processing by LoginController#index as HTML
+  Rendered common/_header.html.erb (0.6ms)
+  Rendered common/_footer.html.erb (0.7ms)
+  Rendered login/index.html.erb (47.5ms)
+Completed 200 OK in 279ms (Views: 146.0ms | ActiveRecord: 7.5ms)
+
+
+Started GET "/assets/common.css?body=1" for 127.0.0.1 at 2013-10-27 03:26:05 +0900
+Served asset /common.css - 304 Not Modified (8ms)
+
+
+Started POST "/taskManagement/login" for 127.0.0.1 at 2013-10-27 03:26:07 +0900
+Processing by LoginController#googleOAuth as HTML
+  Parameters: {"authenticity_token"=>"Pun6MWmvuml+omw7w8pTRAXSSRRSg5MhEyMwHdVK2iw="}
+Redirected to http://backend-unicorn-si-taskManagement/taskManagement/gcalSearch
+Completed 302 Found in 6ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/taskManagement/gcalSearch" for 127.0.0.1 at 2013-10-27 03:26:11 +0900
+Processing by GcalSearchController#index as HTML
+  Rendered common/_header.html.erb (124.9ms)
+  Rendered common/_footer.html.erb (0.8ms)
+  Rendered gcal_search/index.html.erb (275.5ms)
+Completed 200 OK in 46240ms (Views: 451.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/common.css?body=1" for 127.0.0.1 at 2013-10-27 03:27:02 +0900
+Served asset /common.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/gcal_saerch.css" for 127.0.0.1 at 2013-10-27 03:27:02 +0900
+
+
+Started GET "/assets/gcal_search.js?body=1" for 127.0.0.1 at 2013-10-27 03:27:02 +0900
+Served asset /gcal_saerch.css - 404 Not Found (27ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/gcal_saerch.css"):
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:32:in `call_app'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `block in call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/tagged_logging.rb:22:in `tagged'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/static.rb:62:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/engine.rb:479:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/application.rb:223:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/railtie/configurable.rb:30:in `method_missing'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:552:in `process_client'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:632:in `worker_loop'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:500:in `spawn_missing_workers'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:142:in `start'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/bin/unicorn_rails:209:in `<top (required)>'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `load'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `<main>'
+
+
+Served asset /gcal_search.js - 304 Not Modified (27ms)
+
+
+Started POST "/taskManagement/excelOut" for 127.0.0.1 at 2013-10-27 03:28:10 +0900
+Processing by GcalSearchController#excelOut as HTML
+  Parameters: {"dateFrom"=>"", "dateTo"=>"", "commit"=>"Excel出力"}
+Connecting to database specified by database.yml
+
+
+Started GET "/login" for 127.0.0.1 at 2013-10-27 03:30:16 +0900
+Processing by LoginController#index as HTML
+  Rendered common/_header.html.erb (0.6ms)
+  Rendered common/_footer.html.erb (0.6ms)
+  Rendered login/index.html.erb (133.3ms)
+Completed 200 OK in 195ms (Views: 184.0ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/assets/common.css?body=1" for 127.0.0.1 at 2013-10-27 03:30:16 +0900
+Served asset /common.css - 304 Not Modified (0ms)
+
+
+Started POST "/taskManagement/login" for 127.0.0.1 at 2013-10-27 03:30:18 +0900
+Processing by LoginController#googleOAuth as HTML
+  Parameters: {"authenticity_token"=>"TpJlkPqk3ghtXPoMJrf5KEb/DbPHHjEiXeqxu7yp2Wk="}
+Redirected to http://backend-unicorn-si-taskManagement/taskManagement/gcalSearch
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/taskManagement/gcalSearch" for 127.0.0.1 at 2013-10-27 03:30:19 +0900
+Processing by GcalSearchController#index as HTML
+  Rendered common/_header.html.erb (2.1ms)
+  Rendered common/_footer.html.erb (1.2ms)
+  Rendered gcal_search/index.html.erb (211.3ms)
+Completed 200 OK in 12473ms (Views: 324.0ms | ActiveRecord: 0.0ms)
+
+
+
+
+Started GET "/assets/gcal_saerch.css" for 127.0.0.1 at 2013-10-27 03:30:36 +0900
+Started GET "/assets/common.css?body=1" for 127.0.0.1 at 2013-10-27 03:30:36 +0900
+Served asset /common.css - 304 Not Modified (7ms)
+Served asset /gcal_saerch.css - 404 Not Found (35ms)
+
+
+Started GET "/assets/gcal_search.js?body=1" for 127.0.0.1 at 2013-10-27 03:30:36 +0900
+
+ActionController::RoutingError (No route matches [GET] "/assets/gcal_saerch.css"):
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:32:in `call_app'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `block in call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/tagged_logging.rb:22:in `tagged'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/static.rb:62:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/engine.rb:479:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/application.rb:223:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/railtie/configurable.rb:30:in `method_missing'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:552:in `process_client'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:632:in `worker_loop'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:500:in `spawn_missing_workers'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:142:in `start'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/bin/unicorn_rails:209:in `<top (required)>'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `load'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `<main>'
+
+
+Served asset /gcal_search.js - 304 Not Modified (223ms)
+
+
+Started POST "/taskManagement/excelOut" for 127.0.0.1 at 2013-10-27 03:30:42 +0900
+Processing by GcalSearchController#excelOut as HTML
+  Parameters: {"dateFrom"=>"", "dateTo"=>"", "commit"=>"Excel出力"}
+Connecting to database specified by database.yml
+
+
+Started POST "/taskManagement/excelOut" for 127.0.0.1 at 2013-10-27 03:35:35 +0900
+Processing by GcalSearchController#excelOut as HTML
+  Parameters: {"dateFrom"=>"", "dateTo"=>"", "commit"=>"Excel出力"}
+  Rendered common/_header.html.erb (0.1ms)
+  Rendered common/_footer.html.erb (0.1ms)
+  Rendered gcal_search/index.html.erb (152.8ms)
+Completed 200 OK in 17728ms (Views: 208.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/gcal_saerch.css" for 127.0.0.1 at 2013-10-27 03:35:55 +0900
+
+
+Started GET "/assets/common.css?body=1" for 127.0.0.1 at 2013-10-27 03:35:55 +0900
+Served asset /gcal_saerch.css - 404 Not Found (10ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/gcal_saerch.css"):
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:32:in `call_app'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `block in call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/tagged_logging.rb:22:in `tagged'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/static.rb:62:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/engine.rb:479:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/application.rb:223:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/railtie/configurable.rb:30:in `method_missing'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:552:in `process_client'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:632:in `worker_loop'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:500:in `spawn_missing_workers'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:511:in `maintain_worker_count'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:277:in `join'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/bin/unicorn_rails:209:in `<top (required)>'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `load'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `<main>'
+
+
+Served asset /common.css - 304 Not Modified (5ms)
+
+
+Started GET "/assets/gcal_search.js?body=1" for 127.0.0.1 at 2013-10-27 03:35:57 +0900
+Served asset /gcal_search.js - 304 Not Modified (15ms)
+
+
+Started POST "/taskManagement/excelOut" for 127.0.0.1 at 2013-10-27 03:35:59 +0900
+Processing by GcalSearchController#excelOut as HTML
+  Parameters: {"dateFrom"=>"", "dateTo"=>"", "commit"=>"Excel出力"}
+Connecting to database specified by database.yml
+
+
+Started GET "/assets/common.css?body=1" for 127.0.0.1 at 2013-10-27 03:43:58 +0900
+Served asset /common.css - 304 Not Modified (15ms)
+
+
+Started GET "/assets/gcal_saerch.css" for 127.0.0.1 at 2013-10-27 03:44:00 +0900
+Served asset /gcal_saerch.css - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/gcal_saerch.css"):
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:32:in `call_app'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `block in call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/tagged_logging.rb:22:in `tagged'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/rack/logger.rb:16:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  vendor/bundle/ruby/1.9.1/gems/activesupport-3.2.9/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  vendor/bundle/ruby/1.9.1/gems/rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  vendor/bundle/ruby/1.9.1/gems/actionpack-3.2.9/lib/action_dispatch/middleware/static.rb:62:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/engine.rb:479:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/application.rb:223:in `call'
+  vendor/bundle/ruby/1.9.1/gems/railties-3.2.9/lib/rails/railtie/configurable.rb:30:in `method_missing'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:552:in `process_client'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:632:in `worker_loop'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:500:in `spawn_missing_workers'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:511:in `maintain_worker_count'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/lib/unicorn/http_server.rb:277:in `join'
+  vendor/bundle/ruby/1.9.1/gems/unicorn-4.6.3/bin/unicorn_rails:209:in `<top (required)>'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `load'
+  vendor/bundle/ruby/1.9.1/bin/unicorn_rails:23:in `<main>'
+
+
+
+
+Started POST "/taskManagement/excelOut" for 127.0.0.1 at 2013-10-27 03:44:01 +0900
+Processing by GcalSearchController#excelOut as HTML
+  Parameters: {"dateFrom"=>"", "dateTo"=>"", "commit"=>"Excel出力"}
+Connecting to database specified by database.yml

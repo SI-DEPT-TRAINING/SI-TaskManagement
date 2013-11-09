@@ -54,7 +54,7 @@ group :production do
 end
 
 # Debugger
-group :devlopment do
+group :test, :development do
   # Pry本体
   gem 'pry'
   # デバッカー
@@ -74,6 +74,7 @@ group :devlopment do
   # pryの入力に色付け
   gem 'pry-coolline'
 end
+
 
 
 
