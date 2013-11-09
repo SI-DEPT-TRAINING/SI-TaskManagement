@@ -48,7 +48,7 @@ gem 'google-api-client'
 gem 'unicorn'
 
 # Excel出力用
-gem 'rjb'
+gem 'rjb', '1.4.8'
 
 # UnitTest
 gem "rspec-rails", "~> 2.0"

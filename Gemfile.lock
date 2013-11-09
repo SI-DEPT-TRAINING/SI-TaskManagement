@@ -222,7 +222,7 @@ DEPENDENCIES
   pry-stack_explorer
   rails (= 3.2.9)
   rails_12factor (= 0.0.2)
-  rjb
+  rjb (= 1.4.8)
   rspec-rails (~> 2.0)
   sass-rails (~> 3.2.3)
   sqlite3
