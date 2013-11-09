@@ -50,8 +50,8 @@ gem 'jquery-rails'
 gem 'google-api-client'
 
 # WebServer
-#gem 'thin'
-gem 'unicorn'
+gem 'thin'
+#gem 'unicorn'
 
 # Excel出力用
 gem 'rjb', '1.4.8'
