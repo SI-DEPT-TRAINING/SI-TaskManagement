@@ -20,7 +20,6 @@ class GcalSearchController < ApplicationController
 
   #検索画面初期表示
   def index
-binding.remote_pry
     @acountList = Array.new;
     @errorMsgList = Array.new;
     render :template => 'gcal_search/index'
