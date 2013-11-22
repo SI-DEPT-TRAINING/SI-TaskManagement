@@ -10,7 +10,7 @@ development:
 
 # for Heroku
 production:
-  redirect_uri: http://www.ruby.cloud.com/taskManagement/oauth2callback
+  redirect_uri: http://task-managements.herokuapp.com/taskManagement/oauth2callback
   client_id: 816087532898.apps.googleusercontent.com
   client_secret: -6e8T6iAEQ9a41DhWBLYLwIc
 
