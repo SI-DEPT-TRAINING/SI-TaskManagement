@@ -59,7 +59,6 @@ class GcalSearchController < ApplicationController
 
   #Excelファイル出力
   def excelOut
-    binding.remote_pry
     @acountList = Array.new
     @errorMsgList = Array.new
 
