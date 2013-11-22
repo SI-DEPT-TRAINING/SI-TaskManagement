@@ -1,4 +1,4 @@
-#OAuth2.0 Params
+# OAuth2.0 Params
 discovered_api: calendar
 verision : v3
 scope: https://www.googleapis.com/auth/calendar
@@ -8,10 +8,11 @@ development:
   client_id: 846777061871.apps.googleusercontent.com
   client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
 
+# for Heroku
 production:
-  redirect_uri: http://www.ruby.cloud.com/training/taskManagement/oauth2callback
-  client_id: 846777061871-k1coupepin7fd6firah1b0a0cco5v4r8.apps.googleusercontent.com
-  client_secret: l-AoqInn4OR5DeSQCHYL4PMP
+  redirect_uri: http://www.ruby.cloud.com/taskManagement/oauth2callback
+  client_id: 816087532898.apps.googleusercontent.com
+  client_secret: -6e8T6iAEQ9a41DhWBLYLwIc
 
 #calenderApi Params
 cal_api_orderBy: startTime
