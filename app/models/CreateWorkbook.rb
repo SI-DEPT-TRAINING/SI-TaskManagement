@@ -19,11 +19,11 @@ module POIMod
 end
 
 class CreateWorkbook
-  
+
   # コンストラクタ。
   def initialize(googleEventList)
     @googleEventList = googleEventList
-    
+
     # 引数のスケジュールからメンバーを取得する。
     @memberList = Array.new()
     googleEventList.each do |serchOutputModel|
@@ -31,16 +31,16 @@ class CreateWorkbook
       @memberList.push(member_name)
     end
   end
-  
+
   def setTerm(startDate, endDate)
     @startDate = startDate
     @endDate = endDate
   end
-  
+
   def setMemberList(memberList)
     @memberList = memberList
   end
-  
+
   def doExe
     system = Rjb::import("java.lang.System")
     # データ取得。
@@ -49,7 +49,7 @@ class CreateWorkbook
     excelbook = getExcelWorkbook(scheduleList);
     return excelbook;
   end
-  
+
   def getExcelScheduleList()
     #デバック用（本来は画面表示用のオブジェクトへ詰め替える予定）
     scheduleList = ScheduleList.new()
@@ -67,7 +67,7 @@ class CreateWorkbook
     return scheduleList;
   end
   private :getExcelScheduleList
-  
+
   def outputDateTerm(sheet)
     # セルの行列削除。
     delele_col = UtilExcel.getColumnsAddress(@setting["InitDataCellRange"])
@@ -76,17 +76,16 @@ class CreateWorkbook
 #    UtilPOI.deleteCell(sheet, delete_cell)
     ####sheet.Range(delele_col).Delete
     ####sheet.Range(delele_row).Delete
-          
-    
+
     # 日付列の開始位置を取得。
     date_start_address = @setting["BaseCell_Date"]
     date_start_col = UtilExcel.getCorner(date_start_address)[0]
-    
-    # 必要分の日付列を一括で列Insert。    
+
+    # 必要分の日付列を一括で列Insert。
     term = (@endDate - @startDate).to_i + 1
     date_end_col = UtilExcel.getColumnAlphabet_onBase(date_start_col, term - 1)
     ### sheet.Range(date_start_col + ":" + date_end_col).Insert()
-    
+
     for curr in @startDate..@endDate
       offset = (curr - @startDate).to_i
       UtilPOI.InsertColumn(sheet, 11+offset)
@@ -103,7 +102,7 @@ class CreateWorkbook
         str = sprintf("%d月%d日", curr.month, curr.day)
         cell.setCellValue(str)
       end
-      
+
       # 曜日入力
       wdays = ["日", "月", "火", "水", "木", "金", "土"]
       row = sheet.getRow(8)
@@ -119,7 +118,7 @@ class CreateWorkbook
         cell.setCellValue(str)
       end
     end
-    
+
 #    base_cell = sheet.Range(date_start_address)
  #   for curr in @startDate..@endDate
   #    offset = (curr - @startDate).to_i
@@ -129,7 +128,7 @@ class CreateWorkbook
     #end
   end
   private :outputDateTerm
-  
+
   def outputSchedule(sheet, scheduleList)
     addIdx = 0
     errIdx = 0
@@ -140,7 +139,7 @@ class CreateWorkbook
     scheduleList.getList.each do |schedule|
       # スケジュールデータか確認する。
       flg = schedule.isProcessTarget?()
-      if (flg == true) 
+      if (flg == true)
         # スケジュールデータ。
         ####base_cell = sheet.Range(address).Offset(addIdx, 0)
         cell = UtilPOI.getCell(sheet, address)
@@ -157,29 +156,29 @@ class CreateWorkbook
           ins_ = base_cell.getRowIndex()
           sheet.shiftRows(ins_, sheet.getLastRowNum(), 1)
           row = sheet.getRow(ins_)
-          if (row == nil) 
+          if (row == nil)
             sheet.createRow(ins_)
           end
           base_cell = UtilPOI.offset(base_cell, -1, 0)
           ins_ = base_cell.getRowIndex()
-          
+
           UtilPOI.setValue(base_cell, getNendoYY(schedule.getStartDate()), 0, 0)
           UtilPOI.setValue(base_cell, sectionList[0], 0, 1)
           UtilPOI.setValue(base_cell, sectionList[1], 0, 2)
           UtilPOI.setValue(base_cell, sectionList[2], 0, 3)
-          
+
           tmpAdd = UtilPOI.getAddress(base_cell, 0, 1)
           fomular = "VLOOKUP(" + tmpAdd + ", コード定義!$C$4:$D$100, 2, FALSE)"
           UtilPOI.setFormula(base_cell, fomular, 0, 4)
-          
+
           tmpAdd = UtilPOI.getAddress(base_cell, 0, 2)
           fomular = "VLOOKUP(" + tmpAdd + ", コード定義!$F$4:$G$100, 2, FALSE)"
           UtilPOI.setFormula(base_cell, fomular, 0, 5)
-          
+
           tmpAdd = UtilPOI.getAddress(base_cell, 0, 3)
           fomular = "VLOOKUP(" + tmpAdd + ", コード定義!$I$4:$J$100, 2, FALSE)"
           UtilPOI.setFormula(base_cell, fomular, 0, 6)
-          
+
           # 縦軸（分類）ごとの合計式を設定。
           offset1 = (@endDate - @startDate) + 9
           offset1 = offset1.to_i
@@ -218,7 +217,7 @@ class CreateWorkbook
             UtilPOI.setValue(base_cell, val1.to_f + val2.to_f, 0, colOffset.to_i + 8)
           end
         end
-        
+
         if (idx < 0)
           addIdx += 1
         end
@@ -232,7 +231,7 @@ class CreateWorkbook
         errIdx += 1
       end
     end
-    
+
     if addIdx == 0
       return ;
     end
@@ -246,7 +245,7 @@ class CreateWorkbook
     base_cell = UtilPOI.offset(cell, addIdx, 0)
     for curr_date in @startDate..@endDate+1
       offset = (curr_date - @startDate).to_i
-      
+
       curr_cell = UtilPOI.offset(base_cell, 0, offset)
       address_col1 = UtilExcel.getColumnAlphabet(curr_cell.getColumnIndex() + 1)
       address1 = sprintf("%s%s", address_col1, work_time_base_address_row)
@@ -256,34 +255,34 @@ class CreateWorkbook
       UtilPOI.setFormula(base_cell, formula, 0, offset)
     end
   end
-  
+
   def getExcelObj()
     begin
       # 既存のExcelプロセスが起動していれば、それを使いまわす。
       excelapp = WIN32OLE::connect("Excel.Application")
-    rescue WIN32OLERuntimeError 
+    rescue WIN32OLERuntimeError
       # Excelプロセスがないので、新たにプロセスを作成。
       excelapp = WIN32OLE.new("Excel.Application")
     end
-    
+
     # WIN32OLE.const_load(excelapp, Excel)
-    return excelapp 
+    return excelapp
   end
-  
+
   def getTemplateFileFullpath()
     template_base_path = 'app/assets/excel/'
     template_abspath = template_base_path + '/template.xls'
-    return template_abspath 
+    return template_abspath
   end
-  
+
   def getExcelWorkbook(scheduleList)
     # Excelのプロセスを取得する。
     # @excelapp = getExcelObj()
-    
+
     # テンプレートからファイル作成。
     template_fullpath = getTemplateFileFullpath()
-    
-    # TODO 
+
+    # TODO
     #time_string = Time.now.strftime("%Y%m%d_%H%M%S")
     #dest = UtilFile.getParentPath(template_fullpath) + '/output' + time_string + '.xls'
     #FileUtils.copy(template_fullpath, dest)
@@ -293,7 +292,7 @@ class CreateWorkbook
 
     # 「設定」シートから設定の読み込み。
     loadSetting(book)
-    
+
     @memberList.each do |outputMember|
       # 対象メンバーのスケジュールのみを取得。
       memberScheduleList = scheduleList.narrowMember(outputMember)
@@ -303,11 +302,11 @@ class CreateWorkbook
       outputDateTerm(sheet)
       # シートにスケジュール出力。
       outputSchedule(sheet, memberScheduleList)
-      
+
       # 列幅調整。
       #autoFillColumnWidth(sheet)
     end
-    
+
     # 全メンバーのスケジュールのみを取得。
     # シート作成。
     sheet = createMemberSheet(book, 'ALL')
@@ -321,7 +320,7 @@ class CreateWorkbook
     return book;
   end
   private :getExcelWorkbook
-  
+
   def loadSetting(book)
     @setting = {}
     #sheet = book.worksheets("設定")
@@ -330,20 +329,19 @@ class CreateWorkbook
     while true do
       # curr = sheet.Range("C" + i.to_s)
       row = sheet.getRow(i)
-      if (row == nil) 
+      if (row == nil)
         # 最終行。
         break
       end
       curr = row.getCell(2)
-      
-      
-      #if (curr.value == nil || curr.value == "" ) 
+
+      #if (curr.value == nil || curr.value == "" )
       name = curr.toString()
-      if (name == nil || name == "" ) 
+      if (name == nil || name == "" )
         # 設定名称がないならbreak。
         break
       end
-      
+
       # value = curr.Offset(0, 1).getStringCellValue()
       value = row.getCell(3).toString()
       @setting[name] = value
@@ -351,7 +349,7 @@ class CreateWorkbook
     end
   end
   private :loadSetting
-  
+
   def autoFillColumnWidth(sheet)
     date_start_address = @setting["BaseCell_Date"]
     base_cell = UtilPOI.getCell(sheet, date_start_address)
@@ -364,7 +362,7 @@ class CreateWorkbook
       sheet.autoSizeColumn(cellIndex)
     end
   end
-  
+
   def createMemberSheet(book, outputMember)
     # テンプレート用シートのインデックスを取得。
     sheetIdx = book.getSheetIndex('templateSheet')
@@ -372,16 +370,17 @@ class CreateWorkbook
     cloneSheet = book.cloneSheet(sheetIdx)
     # 複製したシートの位置を変えるとセル式のバグあり。
     # どうにもならなそうなのでシート位置は入れ替えないこととする。
-    
+
     # コピー先のシートインデックスを取得。
     sheetName = cloneSheet.getSheetName()
     sheetIdx = book.getSheetIndex(sheetName)
     # コピー先のシート名を変更
     book.setSheetName(sheetIdx, outputMember)
-    
+
     return cloneSheet
   end
   private :createMemberSheet
+
   def getNendoYY(date)
     tmp = date.year
     if (date.month < 4 )

@@ -2,7 +2,7 @@
 # require "gcalapi";
 
 class UtilExcel
-  # 
+  #
   def self.getColumnNumber(columnAlpha)
     if (/^[A-Za-z]+$/ =~ columnAlpha) then
       # 大文字小文字を無視するため、引数を大文字化する。
@@ -20,10 +20,10 @@ class UtilExcel
       total += tmp
       i = i + 1
     end
-    
+
     return total
   end
-  # 
+  #
   def self.getColumnAlphabet_onBase(baseAlpha, colNumber)
     tmp = getColumnNumber(baseAlpha)
     alpha_str = self.getColumnAlphabet(tmp + colNumber)
@@ -33,7 +33,7 @@ class UtilExcel
     if colNumber <= 0
       return nil
     end
-    
+
     # 下位の位からアルファベット化していく。
     alpha_str = ""
     tmp = colNumber - 1
@@ -47,9 +47,9 @@ class UtilExcel
         break
       end
     end
-    return alpha_str 
+    return alpha_str
   end
-  
+
   def self.isCellAddress?(cellAddress)
     /^(\$?([A-Z]+)\$?([0-9]+))(:)?((\$?([A-Z]+)\$?([0-9]+)))?$/ =~ cellAddress
     if $4 == ":"
@@ -63,20 +63,20 @@ class UtilExcel
       end
       return false
     end
-    
+
     return nil
   end
   def self.getCorner(cellAddress)
     if isCellAddress?(cellAddress) == false then
       return nil
     end
-    
+
     # /(\$?([A-Z]+)\$?([0-9]+))(:(\$?([A-Z]+)\$?([0-9]+)))?/ =~ cellAddress
     if (/(\$?([A-Z]+)\$?([0-9]+))(:)?((\$?([A-Z]+)\$?([0-9]+)))?/ =~ cellAddress) then
     else
       return nil
     end
-    
+
     if $4 == nil
       return [ $2, $3, $2, $3 ]
     end

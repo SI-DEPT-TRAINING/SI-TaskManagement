@@ -4,15 +4,15 @@ verision : v3
 scope: https://www.googleapis.com/auth/calendar
 
 development:
-  redirect_uri: http://localhost:3000/taskManagement/oauth2callback
-  client_id: 846777061871.apps.googleusercontent.com
-  client_secret: Kc7jhBXrPJbZvp8LLFGMrAVD
+  redirect_uri: XXXXXXXXXX
+  client_id: XXXXXXXXXX
+  client_secret: XXXXXXXXXX
 
 # for Heroku
 production:
-  redirect_uri: http://task-managements.herokuapp.com/taskManagement/oauth2callback
-  client_id: 816087532898.apps.googleusercontent.com
-  client_secret: -6e8T6iAEQ9a41DhWBLYLwIc
+  redirect_uri: XXXXXXXXXX
+  client_id: XXXXXXXXXX
+  client_secret: XXXXXXXXXX
 
 #calenderApi Params
 cal_api_orderBy: startTime

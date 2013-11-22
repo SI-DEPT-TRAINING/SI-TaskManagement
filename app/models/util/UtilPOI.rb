@@ -31,7 +31,7 @@ class UtilPOI
     book.write(fileOut);
     fileOut.close()
   end
-  
+
   def self.deleteCell(sheet, address)
     corner = UtilExcel.getCorner(address)
     ###range = POIMod::CellRangeAddress.new(10, corner[1].to_i, 23, corner[3].to_i)
@@ -85,7 +85,7 @@ class UtilPOI
               sheet.setColumnWidth(currentColIdx, w)
             end
           end
-          
+
           #row.moveCell(cell, currentColIdx+i)
         else
           oldcell = row.getCell(colIndex-i)
@@ -98,13 +98,13 @@ class UtilPOI
           end
           break
         end
-        currentColIdx = currentColIdx - 1 
+        currentColIdx = currentColIdx - 1
       end
     end
 
     return nil
   end
-  
+
   def self.getCell(sheet, address)
     corner = UtilExcel.getCorner(address)
     rowIndex = corner[1].to_i - 1
@@ -117,21 +117,21 @@ class UtilPOI
     if (cell == nil)
       cell = row.createCell(colIndex)
     end
-    
+
     return cell
   end
-  
+
   def self.getAddress(cell, offsetRow=0, offsetCol=0)
     rowIndex = cell.getRowIndex() + offsetRow
     colIndex = cell.getColumnIndex() + offsetCol
-    
+
     address = UtilExcel.getColumnAlphabet(colIndex + 1) + (rowIndex + 1).to_s
     return address
   end
-  
+
   def self.offset(cell, rowOffset, colOffset)
     sheet = cell.getSheet()
-    
+
     rowIndex = cell.getRowIndex() + rowOffset
     colIndex = cell.getColumnIndex() + colOffset
     row = sheet.getRow(rowIndex)
@@ -142,15 +142,15 @@ class UtilPOI
     if (cell == nil)
       cell = row.createCell(colIndex)
     end
-    
+
     return cell
   end
-  
+
   def self.setValue(cell, value, offsetRow=0, offsetCol=0)
     if (cell == nil)
-      return 
+      return
     end
-    
+
     targetCell = cell
     if (offsetRow !=0 || offsetCol != 0 )
       # offset指定があればそのセルを求める。
@@ -158,14 +158,14 @@ class UtilPOI
     end
     # 対象セルに値をセット。
     targetCell.setCellValue(value)
-    return 
+    return
   end
-  
+
   def self.getValue(cell, offsetRow=0, offsetCol=0)
     if (cell == nil)
       return ""
     end
-    
+
     targetCell = cell
     if (offsetRow !=0 || offsetCol != 0 )
       # offset指定があればそのセルを求める。
@@ -174,12 +174,12 @@ class UtilPOI
     # 対象セルの値を取得。
     return targetCell.toString()
   end
-  
+
   def self.setFormula(cell, ｆormula, offsetRow=0, offsetCol=0)
     if (cell == nil)
-      return 
+      return
     end
-    
+
     targetCell = cell
     if (offsetRow !=0 || offsetCol != 0 )
       # offset指定があればそのセルを求める。
@@ -187,6 +187,6 @@ class UtilPOI
     end
     # 対象セルに値をセット。
     targetCell.setCellFormula(ｆormula)
-    return 
+    return
   end
 end
