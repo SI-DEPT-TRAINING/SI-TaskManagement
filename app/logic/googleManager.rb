@@ -25,8 +25,8 @@ require "time"
     SINGLE_EVENTS = SYSTEM_YAML["cal_api_single_events"]
     TIMEZONE = SYSTEM_YAML["cal_api_timezone"]
     FIELDS = SYSTEM_YAML["cal_api_fields"]
-   DISCOVER = SYSTEM_YAML["discovered_api"]
-   VERSION =  SYSTEM_YAML["verision"]
+    DISCOVER = SYSTEM_YAML["discovered_api"]
+    VERSION =  SYSTEM_YAML["verision"]
 
     # コンストラクタ
     def initialize(client)

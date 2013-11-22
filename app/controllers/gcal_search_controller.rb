@@ -9,7 +9,7 @@ require 'date'
 require 'rjb'
 require 'stringio'
 
-class GcalSearchController < ApplicationController
+class GcalSearchController < OAuthController
   after_filter :convert_to_utf8, :except => :excelOut
 
   @dateFrom = nil
@@ -29,7 +29,7 @@ class GcalSearchController < ApplicationController
   def ajaxSetSession
     setSession
     @respondData = {state: 'ok'}
-    respond_to do |format| 
+    respond_to do |format|
       format.json { render json: @respondData}
     end
   end
