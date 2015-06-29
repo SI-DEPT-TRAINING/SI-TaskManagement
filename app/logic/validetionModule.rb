@@ -5,14 +5,14 @@
 module ValidetionModule
 
 =begin 
-必須チェック
+必須チェック 001 001
 =end
   class MustChecker
     
       @error = nil
       @errorMsg = nil
       # ----------------------------
-      # 必須チェック
+      # 必須チェック 001
       # ----------------------------
       def initialize(id, value)
         msgStr = "の値は必須です。"
