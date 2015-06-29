@@ -15,7 +15,7 @@ class OAuthController < ApplicationController
   CLIENT_SECRET = SYSTEM_YAML[RAILS_ENV]["client_secret"]
   OUTH_SCOPE = SYSTEM_YAML["scope"]
 
-  #トークン生成
+  #トークン生成 001
   def creatToken
     
     #コールバックチェック
@@ -28,7 +28,7 @@ class OAuthController < ApplicationController
     token_info.blank? ? getGcalToken : doExpirarion;
   end
 
-  #コールバックアクション
+  #コールバックアクション 002
   protected
   def setGoogleToken
 
