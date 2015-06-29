@@ -9,7 +9,7 @@ class ScheduleList
   end
   
   
-  # メソッド定義。
+  # メソッド定義。 kogane
   def add(obj)
     @list.push(obj)
   end

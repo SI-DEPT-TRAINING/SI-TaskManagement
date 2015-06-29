@@ -8,7 +8,7 @@ module Excel
 end
 
 classpaths = Dir.glob("./lib/*.jar")
-#Rjb::load(classpath = classpaths.join(';'), jvmargs=[])
+#Rjb::load(classpath = classpaths.join(';'), jvmargs=[]) kogane
 
 module POIMod
   POIFSFileSystem = Rjb::import("org.apache.poi.poifs.filesystem.POIFSFileSystem")
