@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #フロント：UTF-8対応
+  #フロント：UTF-8対応 test
   private
   def convert_to_utf8
     response.charset = "UTF-8"
