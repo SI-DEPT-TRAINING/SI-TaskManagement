@@ -25,7 +25,7 @@ class GcalSearchController < OAuthController
     render :template => 'gcal_search/index'
   end
 
-  #Ajax通信
+  #Ajax通信 test4
   def ajaxSetSession
     setSession
     @respondData = {state: 'ok'}
