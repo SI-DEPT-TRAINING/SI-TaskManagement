@@ -1,6 +1,6 @@
 module ErrorHandling
   
-  # 500エラー test01
+  # 500エラー test01 kogane
   def render_500(exception = nil)
     if exception
       logger.error "Rendering 500 with exception: #{exception.message}"
