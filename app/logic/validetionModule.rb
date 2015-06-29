@@ -12,7 +12,7 @@ module ValidetionModule
       @error = nil
       @errorMsg = nil
       # ----------------------------
-      # 必須チェック
+      # 必須チェック 001
       # ----------------------------
       def initialize(id, value)
         msgStr = "の値は必須です。"
