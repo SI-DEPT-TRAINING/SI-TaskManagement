@@ -27,7 +27,7 @@ module ValidetionModule
   end
 
 =begin 
-日付関連のチェッカーです
+日付関連のチェッカーです 002
 =end
 require 'date'
   class DateChecker < MustChecker
