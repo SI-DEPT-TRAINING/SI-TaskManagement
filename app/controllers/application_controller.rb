@@ -3,7 +3,7 @@ require 'errorHandling.rb'
 
 class ApplicationController < ActionController::Base
   include ErrorHandling
-  #protect_from_forgery
+  #protect_from_forgery test002
 
   # Exceptionが発生した場合は、一律共通エラー画面へ遷移させる
   # 本アクションが実行されるのは、production で、かつローカル
