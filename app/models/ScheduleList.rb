@@ -7,9 +7,9 @@ class ScheduleList
     # GoogleCalendarを受け取り、クラス変数に保持する。
     @list = [];
   end
-  
-  
+
   # メソッド定義。 kogane
+  # メソッド定義。 kogane kogane kogane kogane kogane
   def add(obj)
     @list.push(obj)
   end
