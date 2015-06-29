@@ -46,7 +46,7 @@ require 'date'
       end
 
       # ----------------------------
-      # フォマットチェック　yyyy/mm/dd
+      # フォマットチェック　yyyy/mm/dd 001
       # ----------------------------
       def format(id, value)
         msgStr = "のフォーマットエラーです。yyyy/mm/ddの日付を入力してください。"
