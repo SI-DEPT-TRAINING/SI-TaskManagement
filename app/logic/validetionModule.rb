@@ -5,7 +5,7 @@
 module ValidetionModule
 
 =begin 
-必須チェック
+必須チェック 001
 =end
   class MustChecker
     
