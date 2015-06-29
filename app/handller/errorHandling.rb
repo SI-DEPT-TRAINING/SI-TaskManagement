@@ -8,7 +8,7 @@ module ErrorHandling
     render :file => "#{Rails.root}/public/500.html", :status => 500, :layout => false, :content_type => 'text/html'
   end
 
-  # 404エラー test02
+  # 404エラー test02 test1
   def render_404(exception = nil)
     if exception
       logger.error "Rendering 404 with exception: #{exception.message}"
