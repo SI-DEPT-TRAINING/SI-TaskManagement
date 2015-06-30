@@ -10,6 +10,7 @@ class ScheduleList
 
   # メソッド定義。 kogane
   # メソッド定義。 kogane kogane kogane kogane kogane
+  # kogane kogane kogane kogane kogane
   def add(obj)
     @list.push(obj)
   end
