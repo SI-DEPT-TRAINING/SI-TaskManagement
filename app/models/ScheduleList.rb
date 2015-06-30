@@ -10,9 +10,12 @@ class ScheduleList
 
   # メソッド定義。 kogane
   # メソッド定義。 kogane kogane kogane kogane kogane
+  # メソッド定義。 77777
   def add(obj)
     @list.push(obj)
   end
+  # メソッド定義。 77777
+
   def getMemberList()
     list = []
     @list.each do |tmp|
