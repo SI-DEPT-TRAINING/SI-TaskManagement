@@ -3,14 +3,6 @@ require 'errorHandling.rb'
 
 class ApplicationController < ActionController::Base
   include ErrorHandling
-  #protect_from_forgery test002
-
-  # Exceptionが発生した場合は、一律共通エラー画面へ遷移させる
-  # 本アクションが実行されるのは、production で、かつローカル
-  # らのリクエストでない場合のみのため、動作確認用に下記設定が必須
-  # config/environments/development.rb
-  # config.action_controller.consider_all_requests_local = false
-  # local_request?のオーバーライド且つfalse
   protected
   def local_request?
     false
