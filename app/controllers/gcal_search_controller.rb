@@ -19,6 +19,7 @@ class GcalSearchController < OAuthController
   @line = nil
 
   #検索画面初期表示 test03
+  # issue_test002 のコメント
   def index
     @acountList = Array.new;
     @errorMsgList = Array.new;
