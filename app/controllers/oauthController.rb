@@ -8,6 +8,7 @@ class OAuthController < ApplicationController
   before_filter :creatToken
   
   #各種パラメータは定義ファイルより取得する
+  # 004
   SYSTEM_YAML = YAML.load_file(File.dirname(__FILE__) + '/../../config/googleSystemProp.yml')
   RAILS_ENV = Rails.env
   REDIRECT_URI = SYSTEM_YAML[RAILS_ENV]["redirect_uri"]
