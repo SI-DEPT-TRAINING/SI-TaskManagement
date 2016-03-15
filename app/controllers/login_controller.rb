@@ -10,6 +10,7 @@ class LoginController < ApplicationController
   # 003
   # 004
   def googleOAuth
+    # test-commnet-03
     redirect_to :controller => 'gcalSearch', :action => 'index'
   end
 
