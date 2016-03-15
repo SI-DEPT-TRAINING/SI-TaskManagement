@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
   private
   def convert_to_utf8
     response.charset = "UTF-8"
+    # test-commnet-01
     response.body = response.body.encode("UTF-8")
   end
 end
